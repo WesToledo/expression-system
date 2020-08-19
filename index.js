@@ -3,13 +3,15 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 
+const routes = require("./src/config/routes");
+
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-app.use("/files", express.static(path.resolve(__dirname, "uploads")));
+app.use("/api", routes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
