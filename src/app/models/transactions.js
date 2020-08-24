@@ -17,36 +17,36 @@ const TransactionSchema = new mongoose.Schema({
       },
       value: {
         type: Number,
-        require: true,
+        required: true,
       },
       amount: {
         type: Number,
-        require: true,
+        required: true,
         default: 1,
       },
       total: {
         type: Number,
-        require: true,
+        required: true,
         default: 0,
       },
     },
   ],
   date: {
     type: Date,
-    require: true,
+    required: true,
   },
   month: {
     type: "String",
-    require: true,
+    required: true,
   },
   total: {
     type: Number,
-    require: true,
+    required: true,
     default: 0,
   },
   paid: {
     type: Boolean,
-    require: true,
+    required: true,
     default: false,
   },
   payday: {

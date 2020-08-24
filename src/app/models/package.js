@@ -3,11 +3,11 @@ const mongoose = require("../../database");
 const PackageSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   value: {
     type: Number,
-    require: true,
+    required: true,
   },
 });
 

@@ -3,33 +3,33 @@ const mongoose = require("../../database");
 const ClientSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   address: {
     via: {
       type: String,
-      require: true,
+      required: true,
     },
     number: {
       type: Number,
-      require: true,
+      required: true,
     },
     neighborhood: {
       type: String,
-      require: true,
+      required: true,
     },
     state: {
       type: String,
-      require: true,
+      required: true,
     },
-    city: { type: String, require: true },
+    city: { type: String, required: true },
   },
   fix_phone: {
     type: String,
   },
   cel_phone: {
     type: String,
-    require: true,
+    required: true,
   },
   reference_name: {
     type: String,

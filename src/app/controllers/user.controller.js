@@ -48,7 +48,7 @@ async function update(req, res) {
 
 async function remove(req, res) {
   try {
-    await AdicionaisSchema.findByIdAndRemove(req.params.id);
+    await UserSchema.findByIdAndRemove(req.params.id);
     return res.status(200).send();
   } catch (err) {
     return res.status(400).send({ error: "Error on remove user", err });

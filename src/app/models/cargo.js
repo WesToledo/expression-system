@@ -3,7 +3,7 @@ const mongoose = require("../../database");
 const CargoSchema = new mongoose.Schema({
   date: {
     type: Date,
-    require: true,
+    required: true,
   },
   packages: [
     {
@@ -13,12 +13,12 @@ const CargoSchema = new mongoose.Schema({
   ],
   open: {
     type: Boolean,
-    require: true,
+    required: true,
     default: false,
   },
   total: {
     type: Number,
-    require: true,
+    required: true,
     default: 0,
   },
 });
