@@ -34,6 +34,7 @@ async function list(req, res) {
     return res.status(400).send({ error: "Error on get users" });
   }
 }
+
 async function update(req, res) {
   try {
     const user = await UserSchema.findByIdAndUpdate(req.params.id, req.body, {
