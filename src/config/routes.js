@@ -1,9 +1,36 @@
 const express = require("express");
 
-const routes = express.Router();
+const authMiddleware = require("../app/middleware/auth");
 
-const usuario = require("../app/controllers/usuario.controller");
+const user = require("../app/controllers/user.controller");
+const auth = require("../app/controllers/authorization.controller");
+const client = require("../app/controllers/client.controller");
 
-routes.get("/usuario", usuario.index);
+//Auth
+const rootRouter = express.Router();
 
-module.exports = routes;
+rootRouter.post("/login", auth.login);
+
+// Users
+const userRouter = express.Router();
+
+userRouter.use(authMiddleware);
+
+userRouter.post("/create", authMiddleware, user.create);
+userRouter.get("/", authMiddleware, user.list);
+userRouter.get("/:id", authMiddleware, user.index);
+userRouter.put("/:id", authMiddleware, user.update);
+userRouter.delete("/:id", authMiddleware, user.remove);
+
+// Client
+const clientRouter = express.Router();
+
+clientRouter.use(authMiddleware);
+
+clientRouter.post("/create", authMiddleware, client.create);
+clientRouter.get("/", authMiddleware, client.list);
+clientRouter.get("/:id", authMiddleware, client.index);
+clientRouter.put("/:id", authMiddleware, client.update);
+clientRouter.delete("/:id", authMiddleware, client.remove);
+
+module.exports = { rootRouter, userRouter, clientRouter };
