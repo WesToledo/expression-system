@@ -10,12 +10,13 @@ import {
 import Error404 from "./pages/404.react";
 
 import HomePage from "~/pages/Home";
+import LoginPage from "~/pages/Login";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={LoginPage} />
 
         <Route component={Error404} />
       </Switch>
