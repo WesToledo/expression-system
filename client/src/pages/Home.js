@@ -2,11 +2,14 @@ import React from "react";
 
 import { Icon } from "tabler-react";
 
+import Wrapper from "~/components/Wrapper";
+
 function App() {
   return (
-    <div className="App">
+    <>
+    <Wrapper />
       <Icon name="user" />
-    </div>
+    </>
   );
 }
 

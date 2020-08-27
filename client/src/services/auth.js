@@ -12,3 +12,6 @@ export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_ID);
 };
+
+export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
+
