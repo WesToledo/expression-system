@@ -57,7 +57,7 @@ const CreateUserPage = (props) => {
           form={form}
           setForm={setForm}
           handleSubmit={handleSubmit}
-          title={"Cadastrar Usuário"}
+          title={"Cadastrar Cliente"}
           confirmButtonText={"Salvar Cadastro"}
         />
       </Page.Content>
