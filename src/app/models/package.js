@@ -4,6 +4,7 @@ const PackageSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   value: {
     type: Number,

@@ -1,10 +1,10 @@
 const express = require("express");
 
-const authMiddleware = require("../app/middleware/auth");
+const authMiddleware = require("./src/app/middleware/auth");
 
-const user = require("../app/controllers/user.controller");
-const auth = require("../app/controllers/authorization.controller");
-const client = require("../app/controllers/client.controller");
+const user = require("./src/app/controllers/user.controller");
+const auth = require("./src/app/controllers/authorization.controller");
+const client = require("./src/app/controllers/client.controller");
 
 //Auth
 const rootRouter = express.Router();
@@ -30,7 +30,7 @@ clientRouter.use(authMiddleware);
 clientRouter.post("/create", authMiddleware, client.create);
 clientRouter.get("/", authMiddleware, client.list);
 clientRouter.get("/:id", authMiddleware, client.index);
-clientRouter.put("/:id", authMiddleware, client.update);
-clientRouter.delete("/:id", authMiddleware, client.remove);
+clientRouter.put("/update/:id", authMiddleware, client.update);
+clientRouter.delete("/remove/:id", authMiddleware, client.remove);
 
 module.exports = { rootRouter, userRouter, clientRouter };

@@ -15,9 +15,9 @@ const navBarItems = [
     to: "/volumes",
   },
   {
-    value: "Remetentes",
+    value: "Clientes",
     icon: "plus-square",
-    to: "/remententes",
+    to: "/clientes",
   },
   {
     value: "Destinatários",

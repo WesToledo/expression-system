@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 
-const { rootRouter, userRouter, clientRouter } = require("./src/config/routes");
+const { rootRouter, userRouter, clientRouter } = require("./routes");
 
 const app = express();
 
