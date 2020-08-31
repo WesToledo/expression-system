@@ -14,8 +14,14 @@ import FormClient from "./form";
 function EditClientPage(props) {
   const [form, setForm] = useState({
     name: undefined,
-    login: undefined,
-    type: undefined,
+    via: undefined,
+    number: undefined,
+    neighborhood: undefined,
+    state: undefined,
+    city: undefined,
+    fix_phone: undefined,
+    cel_phone: undefined,
+    reference_name: undefined,
   });
 
   async function handleSubmit(e) {
