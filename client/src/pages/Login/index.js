@@ -6,7 +6,7 @@ import api from "~/services/api";
 import { login as setLoginCache } from "~/services/auth";
 
 import { StandaloneFormPage, FormCard, FormTextInput } from "tabler-react";
-import logoImg from "~/img/tabler.png";
+import logoImg from "~/assets/img/tabler.png";
 
 function LoginPage(props) {
   const [textButton, setTextButton] = useState({ text: "Entrar" });

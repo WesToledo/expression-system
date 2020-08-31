@@ -19,8 +19,8 @@ userRouter.use(authMiddleware);
 userRouter.post("/create", authMiddleware, user.create);
 userRouter.get("/", authMiddleware, user.list);
 userRouter.get("/:id", authMiddleware, user.index);
-userRouter.put("/:id", authMiddleware, user.update);
-userRouter.delete("/:id", authMiddleware, user.remove);
+userRouter.put("/update/:id", authMiddleware, user.update);
+userRouter.delete("/remove/:id", authMiddleware, user.remove);
 
 // Client
 const clientRouter = express.Router();

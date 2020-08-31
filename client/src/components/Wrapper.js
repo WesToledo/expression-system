@@ -1,6 +1,6 @@
 import * as React from "react";
 import { withRouter } from "react-router-dom";
-import avatar from "~/img/avatar.png";
+import avatar from "~/assets/img/avatar.png";
 import { Site, RouterContextProvider } from "tabler-react";
 
 const navBarItems = [

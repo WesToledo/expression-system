@@ -4,7 +4,7 @@ async function create(req, res) {
   try {
     const { login } = req.body;
     if (await UserSchema.findOne({ login })) {
-      return res.status(400).send({ error: "Login already exists" });
+      return res.status(400).send({ error: "Login já existe" });
     }
     const user = await UserSchema.create(req.body);
     user.password = undefined;
@@ -13,7 +13,7 @@ async function create(req, res) {
   } catch (err) {
     return res
       .status(400)
-      .send({ error: "Error on create user", message: err });
+      .send({ error: "Erro ao cadastrar usuário", message: err });
   }
 }
 
@@ -22,7 +22,7 @@ async function index(req, res) {
     const user = await UserSchema.findById(req.params.id);
     return res.send({ user });
   } catch (err) {
-    return res.status(400).send({ error: "Error on get user" });
+    return res.status(400).send({ error: "Erro ao buscar usuário" });
   }
 }
 
@@ -31,7 +31,7 @@ async function list(req, res) {
     const user = await UserSchema.find();
     res.send({ user });
   } catch (err) {
-    return res.status(400).send({ error: "Error on get users" });
+    return res.status(400).send({ error: "Erro ao buscar usuários" });
   }
 }
 
@@ -42,7 +42,7 @@ async function update(req, res) {
     });
     return res.send({ user });
   } catch (err) {
-    return res.status(400).send({ error: "Error on update user" });
+    return res.status(400).send({ error: "Erro ao editar usuário" });
   }
 }
 
@@ -51,7 +51,7 @@ async function remove(req, res) {
     await UserSchema.findByIdAndRemove(req.params.id);
     return res.status(200).send();
   } catch (err) {
-    return res.status(400).send({ error: "Error on remove user", err });
+    return res.status(400).send({ error: "Erro ao deletar usuário", err });
   }
 }
 

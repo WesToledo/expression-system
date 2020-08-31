@@ -2,7 +2,7 @@ const mongoose = require("../../database");
 const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
-  nome: {
+  name: {
     type: String,
     required: true,
   },
@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    select: false,
   },
   type: {
     type: String,
@@ -21,7 +22,6 @@ const UserSchema = new mongoose.Schema({
     default: "DeliverMan",
   },
 });
-
 
 UserSchema.pre("save", async function (next) {
   const hash = await bcrypt.hash(this.password, 10);
