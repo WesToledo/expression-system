@@ -5,6 +5,7 @@ const authMiddleware = require("./src/app/middleware/auth");
 const user = require("./src/app/controllers/user.controller");
 const auth = require("./src/app/controllers/authorization.controller");
 const client = require("./src/app/controllers/client.controller");
+const receiver = require("./src/app/controllers/receiver.controller");
 
 //Auth
 const rootRouter = express.Router();
@@ -33,4 +34,15 @@ clientRouter.get("/:id", authMiddleware, client.index);
 clientRouter.put("/update/:id", authMiddleware, client.update);
 clientRouter.delete("/remove/:id", authMiddleware, client.remove);
 
-module.exports = { rootRouter, userRouter, clientRouter };
+// Receiver
+const receiverRouter = express.Router();
+
+receiverRouter.use(authMiddleware);
+
+receiverRouter.post("/create", authMiddleware, receiver.create);
+receiverRouter.get("/", authMiddleware, receiver.list);
+receiverRouter.get("/:id", authMiddleware, receiver.index);
+receiverRouter.put("/update/:id", authMiddleware, receiver.update);
+receiverRouter.delete("/remove/:id", authMiddleware, receiver.remove);
+
+module.exports = { rootRouter, userRouter, clientRouter, receiverRouter };

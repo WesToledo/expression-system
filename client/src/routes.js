@@ -23,6 +23,11 @@ import ClientPage from "~/pages/Clients";
 import CreateClientPage from "~/pages/Clients/CreateClient";
 import EditClientPage from "./pages/Clients/UpdateClient";
 
+
+import ReceiverPage from "~/pages/Receivers";
+import CreateReceiverPage from "~/pages/Receivers/CreateReceiver";
+import EditReceiverPage from "./pages/Receivers/UpdateReceiver";
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
@@ -51,6 +56,10 @@ function App() {
         <PrivateRoute exact path="/clientes" component={ClientPage} />
         <PrivateRoute exact path="/clientes/cadastrar" component={CreateClientPage} />
         <PrivateRoute exact path="/clientes/editar/:id" component={EditClientPage} />
+
+        <PrivateRoute exact path="/destinatarios" component={ReceiverPage} />
+        <PrivateRoute exact path="/destinatarios/cadastrar" component={CreateReceiverPage} />
+        <PrivateRoute exact path="/destinatarios/editar/:id" component={EditReceiverPage} />
         
         <Route component={Error404} />
       </Switch>
