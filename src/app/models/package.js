@@ -6,7 +6,7 @@ const PackageSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  value: {
+  price: {
     type: Number,
     required: true,
   },

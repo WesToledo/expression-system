@@ -9,42 +9,43 @@ import {
   dangerNotification,
 } from "~/services/notification";
 
-import FormUser from "./form";
+import FormPackage from "./form";
 
-const CreateUserPage = (props) => {
+function CreatepackagePage(props) {
   const [form, setForm] = useState({
     name: undefined,
-    login: undefined,
-    type: "DeliverMan",
+    price: "0",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/user/create", form);
-      successNotification("Sucesso", "Sucesso ao cadastrar usuário");
-      props.history.push("/usuarios");
+      await api.post("/package/create", {
+        ...form,
+        price: form.price.replace(".", "").split(",").join("."),
+      });
+      successNotification("Sucesso", "Sucesso ao cadastrar volume");
+      props.history.push("/volumes");
     } catch (err) {
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao cadastrar usuário");
+      else dangerNotification("Erro", "Erro ao cadastrar volume");
     }
   };
 
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
-        <FormUser
+        <FormPackage
           form={form}
           setForm={setForm}
           handleSubmit={handleSubmit}
-          title={"Cadastrar Usuário"}
+          title={"Cadastrar Volume"}
           confirmButtonText={"Salvar Cadastro"}
-          type="cadastrar"
         />
       </Page.Content>
     </Wrapper>
   );
-};
+}
 
-export default CreateUserPage;
+export default CreatepackagePage;

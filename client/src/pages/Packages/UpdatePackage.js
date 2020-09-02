@@ -9,49 +9,55 @@ import {
   dangerNotification,
 } from "~/services/notification";
 
-import FormUser from "./form";
+import FormPackage from "./form";
 
-function EditUserPage(props) {
+function EditPackagePage(props) {
   const [form, setForm] = useState({
     name: undefined,
-    login: undefined,
-    type: undefined,
+    price: "0",
   });
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      await api.put("/user/update/" + props.match.params.id, form);
-      successNotification("Sucesso", "Sucesso ao editar usuário");
-      props.history.push("/usuarios");
+      await api.put("/package/update/" + props.match.params.id, {
+        ...form,
+        price: form.price.replace(".", "").split(",").join("."),
+      });
+      successNotification("Sucesso", "Sucesso ao editar volume");
+      props.history.push("/volumes");
     } catch (err) {
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao editar usuário");
+      else dangerNotification("Erro", "Erro ao editar volume");
     }
   }
 
   useEffect(() => {
-    async function getUser() {
+    async function getPackage() {
       try {
-        const response = await api.get("/user/" + props.match.params.id);
-        const user = response.data.user;
-        setForm(user);
+        const response = await api.get("/package/" + props.match.params.id);
+        const pack = response.data.package;
+
+        setForm({
+          ...pack,
+          price: pack.price.toFixed(2).replace(".", ","),
+        });
       } catch (err) {
-        dangerNotification("Erro", "Erro ao buscar usuário");
+        dangerNotification("Erro", "Erro ao buscar volume");
       }
     }
-    getUser();
+    getPackage();
   }, []);
 
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
-        <FormUser
+        <FormPackage
           form={form}
           setForm={setForm}
           handleSubmit={handleSubmit}
-          title={"Editar Usuário"}
+          title={"Editar Volume"}
           confirmButtonText={"Salvar Alteração"}
           type="editar"
         />
@@ -60,4 +66,4 @@ function EditUserPage(props) {
   );
 }
 
-export default EditUserPage;
+export default EditPackagePage;

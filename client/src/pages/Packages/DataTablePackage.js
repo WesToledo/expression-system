@@ -12,7 +12,7 @@ import {
 
 import DataTable from "~/components/DataTable";
 
-const DataTableClients = ({ clients, getClients }) => {
+const DataTablePackages = ({ packages, getPackages }) => {
   const [data, setData] = useState([]);
   const [rowSelected, setRowSelected] = useState();
   const columns = [
@@ -32,29 +32,8 @@ const DataTableClients = ({ clients, getClients }) => {
       },
     },
     {
-      name: "reference_name",
-      label: "Nome de referência",
-      options: {
-        display: true,
-      },
-    },
-    {
-      name: "address",
-      label: "Endereço",
-      options: {
-        display: true,
-      },
-    },
-    {
-      name: "fix_phone",
-      label: "Telefone Fixo",
-      options: {
-        display: true,
-      },
-    },
-    {
-      name: "cel_phone",
-      label: "Telefone Celular",
+      name: "price",
+      label: "Preço",
       options: {
         display: true,
       },
@@ -63,7 +42,7 @@ const DataTableClients = ({ clients, getClients }) => {
 
   const currentRow = useStateLink({
     id: null,
-    hrefEdit: "/clientes/editar/",
+    hrefEdit: "/volumes/editar/",
   });
 
   const options = {
@@ -88,7 +67,7 @@ const DataTableClients = ({ clients, getClients }) => {
 
   useEffect(() => {
     refreshDataTable();
-  }, [clients]);
+  }, [packages]);
 
   const [modalDelete, setModalDelete] = useState({
     show: false,
@@ -96,17 +75,11 @@ const DataTableClients = ({ clients, getClients }) => {
   });
 
   function refreshDataTable() {
-    function formatAddress({ via, number, neighborhood, state, city }) {
-      return (
-        via + ", " + number + ", " + neighborhood + ", " + state + ", " + city
-      );
-    }
-
     var rows = [];
-    clients.map((client) => {
+    packages.map((pack) => {
       rows.push({
-        ...client,
-        address: formatAddress(client.address),
+        ...pack,
+        price: "R$ " + pack.price.toFixed(2).replace(".", ","),
       });
     });
     setData(rows);
@@ -114,16 +87,16 @@ const DataTableClients = ({ clients, getClients }) => {
 
   const handleDelete = async () => {
     try {
-      await api.delete("/client/remove/" + modalDelete.id);
-      successNotification("Sucesso", "Sucesso ao deletar cliente");
+      await api.delete("/package/remove/" + modalDelete.id);
+      successNotification("Sucesso", "Sucesso ao deletar volume");
 
-      getClients();
+      getPackages();
       setModalDelete({ id: undefined, show: false });
       setRowSelected([]);
     } catch (err) {
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao deletar cliente");
+      else dangerNotification("Erro", "Erro ao deletar volume");
     }
   };
 
@@ -131,22 +104,22 @@ const DataTableClients = ({ clients, getClients }) => {
     <>
       <DataTable
         title={""}
-        tooltipEdit={"Editar Cliente"}
-        tooltipDelete={"Deletar Cliente"}
-        tooltipAdd={"Cadastrar novo cliente"}
+        tooltipEdit={"Editar volume"}
+        tooltipDelete={"Deletar volume"}
+        tooltipAdd={"Cadastrar novo volume"}
         options={options}
         data={data}
         currentRow={currentRow}
         columns={columns}
-        hrefAdd={"/clientes/cadastrar"}
+        hrefAdd={"/volumes/cadastrar"}
         setModalDelete={setModalDelete}
       />
 
       <Modal show={modalDelete.show} animation={true}>
         <Modal.Header>
-          <Modal.Title>Excluir Cliente</Modal.Title>
+          <Modal.Title>Excluir volume</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Você tem certeza que deseja excluir o cliente?</Modal.Body>
+        <Modal.Body>Você tem certeza que deseja excluir o volume?</Modal.Body>
         <Modal.Footer>
           <Button
             color="danger"
@@ -172,4 +145,4 @@ const DataTableClients = ({ clients, getClients }) => {
   );
 };
 
-export default DataTableClients;
+export default DataTablePackages;

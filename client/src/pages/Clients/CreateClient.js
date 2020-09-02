@@ -7,7 +7,7 @@ import api from "services/api";
 import {
   successNotification,
   dangerNotification,
-} from "~/services/notificationn";
+} from "~/services/notification";
 
 import FormClient from "./form";
 
@@ -41,12 +41,12 @@ function CreateClientPage(props) {
         cel_phone: form.cel_phone,
       };
       await api.post("/client/create", client);
-      successNotification("Sucesso", "Sucesso ao cadastrar usuário");
+      successNotification("Sucesso", "Sucesso ao cadastrar cliente");
       props.history.push("/clientes");
     } catch (err) {
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao cadastrar usuário");
+      else dangerNotification("Erro", "Erro ao cadastrar cliente");
     }
   };
 

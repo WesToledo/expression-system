@@ -6,7 +6,7 @@ import Wrapper from "~/components/Wrapper";
 import DataTableReceiver from "./DataTableReceiver";
 
 import api from "~/services/api";
-import { dangerNotification } from "~/services/notificationn";
+import { dangerNotification } from "~/services/notification";
 
 const Receiver = (props) => {
   const [receivers, setReceivers] = useState(null);

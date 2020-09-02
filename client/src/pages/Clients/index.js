@@ -6,7 +6,7 @@ import Wrapper from "~/components/Wrapper";
 import DataTableClients from "./DataTableClient";
 
 import api from "~/services/api";
-import { dangerNotification } from "~/services/notificationn";
+import { dangerNotification } from "~/services/notification";
 
 const ClientPage = (props) => {
   const [clients, setClients] = useState(null);

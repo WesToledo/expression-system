@@ -7,7 +7,7 @@ import api from "services/api";
 import {
   successNotification,
   dangerNotification,
-} from "~/services/notificationn";
+} from "~/services/notification";
 
 import FormReceiver from "./form";
 
