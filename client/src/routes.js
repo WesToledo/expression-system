@@ -9,7 +9,7 @@ import {
 
 import { isAuthenticated } from "~/services/auth";
 
-import Error404 from "./pages/404.react";
+import Error404 from "./pages/NotFound/404.react";
 
 import LoginPage from "~/pages/Login";
 
