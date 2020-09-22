@@ -8,7 +8,7 @@ import api from "services/api";
 import {
   dangerNotification,
   successNotification,
-} from "~/services/notificationn";
+} from "~/services/notification";
 
 import DataTable from "~/components/DataTable";
 

@@ -12,7 +12,7 @@ import {
 
 import DataTable from "~/components/DataTable";
 
-const DataTableClients = ({ clients, getClients }) => {
+const DataTableReceivers = ({ receivers, getReceivers }) => {
   const [data, setData] = useState([]);
   const [rowSelected, setRowSelected] = useState();
   const columns = [
@@ -46,13 +46,6 @@ const DataTableClients = ({ clients, getClients }) => {
       },
     },
     {
-      name: "fix_phone",
-      label: "Telefone Fixo",
-      options: {
-        display: true,
-      },
-    },
-    {
       name: "cel_phone",
       label: "Telefone Celular",
       options: {
@@ -63,7 +56,7 @@ const DataTableClients = ({ clients, getClients }) => {
 
   const currentRow = useStateLink({
     id: null,
-    hrefEdit: "/clientes/editar/",
+    hrefEdit: "/destinatarios/editar/",
   });
 
   const options = {
@@ -88,7 +81,7 @@ const DataTableClients = ({ clients, getClients }) => {
 
   useEffect(() => {
     refreshDataTable();
-  }, [clients]);
+  }, [receivers]);
 
   const [modalDelete, setModalDelete] = useState({
     show: false,
@@ -103,10 +96,10 @@ const DataTableClients = ({ clients, getClients }) => {
     }
 
     var rows = [];
-    clients.map((client) => {
+    receivers.map((receiver) => {
       rows.push({
-        ...client,
-        address: formatAddress(client.address),
+        ...receiver,
+        address: formatAddress(receiver.address),
       });
     });
     setData(rows);
@@ -114,16 +107,16 @@ const DataTableClients = ({ clients, getClients }) => {
 
   const handleDelete = async () => {
     try {
-      await api.delete("/client/remove/" + modalDelete.id);
-      successNotification("Sucesso", "Sucesso ao deletar cliente");
+      await api.delete("/receiver/remove/" + modalDelete.id);
+      successNotification("Sucesso", "Sucesso ao deletar destinatário");
 
-      getClients();
+      getReceivers();
       setModalDelete({ id: undefined, show: false });
       setRowSelected([]);
     } catch (err) {
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao deletar cliente");
+      else dangerNotification("Erro", "Erro ao deletar destinatário");
     }
   };
 
@@ -131,22 +124,24 @@ const DataTableClients = ({ clients, getClients }) => {
     <>
       <DataTable
         title={""}
-        tooltipEdit={"Editar Cliente"}
-        tooltipDelete={"Deletar Cliente"}
-        tooltipAdd={"Cadastrar novo cliente"}
+        tooltipEdit={"Editar Destinatário"}
+        tooltipDelete={"Deletar Destinatário"}
+        tooltipAdd={"Cadastrar novo destinatário"}
         options={options}
         data={data}
         currentRow={currentRow}
         columns={columns}
-        hrefAdd={"/clientes/cadastrar"}
+        hrefAdd={"/destinatarios/cadastrar"}
         setModalDelete={setModalDelete}
       />
 
       <Modal show={modalDelete.show} animation={true}>
         <Modal.Header>
-          <Modal.Title>Excluir Cliente</Modal.Title>
+          <Modal.Title>Excluir Destinatário</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Você tem certeza que deseja excluir o cliente?</Modal.Body>
+        <Modal.Body>
+          Você tem certeza que deseja excluir o destinatário?
+        </Modal.Body>
         <Modal.Footer>
           <Button
             color="danger"
@@ -172,4 +167,4 @@ const DataTableClients = ({ clients, getClients }) => {
   );
 };
 
-export default DataTableClients;
+export default DataTableReceivers;

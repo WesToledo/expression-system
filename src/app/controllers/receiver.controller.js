@@ -1,7 +1,6 @@
 const ReceiverSchema = require("../models/receiver");
 
 async function create(req, res) {
-  console.log(req.body);
   try {
     const receiver = await ReceiverSchema.create(req.body);
 

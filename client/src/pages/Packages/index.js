@@ -3,38 +3,38 @@ import { Page } from "tabler-react";
 
 import Wrapper from "~/components/Wrapper";
 
-import DataTableUsuarios from "./DataTableUser";
+import DataTablePackage from "./DataTablePackage";
 
 import api from "~/services/api";
 import { dangerNotification } from "~/services/notification";
 
-const UsuariosPage = (props) => {
-  const [users, setUsers] = useState(null);
+function PackagesPage(props) {
+  const [packages, setPackages] = useState(null);
 
-  async function getUsers() {
+  async function getPackages() {
     try {
-      const response = await api.get("/user");
-      setUsers(response.data.user);
+      const response = await api.get("/package");
+      setPackages(response.data.package);
     } catch (err) {
-      dangerNotification("Erro", "Erro ao buscar usuários");
+      dangerNotification("Erro", "Erro ao buscar volumes");
     }
   }
 
   useEffect(() => {
-    getUsers();
+    getPackages();
   }, []);
 
   useEffect(() => {
-    console.log(users);
-  }, [users]);
+    console.log(packages);
+  }, [packages]);
 
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
-        <Page.Card title="Usuários">
+        <Page.Card title="Volumes">
           <div className="divList">
-            {users !== null ? (
-              <DataTableUsuarios users={users} getUsers={getUsers} />
+            {packages !== null ? (
+              <DataTablePackage packages={packages} getPackages={getPackages} />
             ) : (
               "Carregando informações"
             )}
@@ -43,6 +43,6 @@ const UsuariosPage = (props) => {
       </Page.Content>
     </Wrapper>
   );
-};
+}
 
-export default UsuariosPage;
+export default PackagesPage;

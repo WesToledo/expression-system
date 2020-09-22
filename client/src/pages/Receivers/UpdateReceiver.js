@@ -9,9 +9,9 @@ import {
   dangerNotification,
 } from "~/services/notification";
 
-import FormClient from "./form";
+import FormReceiver from "./form";
 
-function EditClientPage(props) {
+function EditReceiverPage(props) {
   const [form, setForm] = useState({
     name: undefined,
     via: undefined,
@@ -19,7 +19,6 @@ function EditClientPage(props) {
     neighborhood: undefined,
     state: undefined,
     city: undefined,
-    fix_phone: undefined,
     cel_phone: undefined,
     reference_name: undefined,
   });
@@ -27,7 +26,7 @@ function EditClientPage(props) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const client = {
+      const receiver = {
         name: form.name,
         reference_name: form.reference_name,
         address: {
@@ -37,51 +36,50 @@ function EditClientPage(props) {
           state: form.state,
           city: form.city,
         },
-        fix_phone: form.fix_phone,
         cel_phone: form.cel_phone,
       };
-      await api.put("/client/update/" + props.match.params.id, client);
-      successNotification("Sucesso", "Sucesso ao editar cliente");
-      props.history.push("/clientes");
+      await api.put("/receiver/update/" + props.match.params.id, receiver);
+      successNotification("Sucesso", "Sucesso ao editar destinatario");
+      props.history.push("/destinatarios");
     } catch (err) {
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao editar cliente");
+      else dangerNotification("Erro", "Erro ao editar destinatario");
     }
   }
 
   useEffect(() => {
-    async function getClient() {
+    async function getReceiver() {
       try {
-        const response = await api.get("/client/" + props.match.params.id);
-        const client = response.data.client;
+        const response = await api.get("/receiver/" + props.match.params.id);
+        const receiver = response.data.receiver;
 
         setForm({
-          name: client.name,
-          reference_name: client.reference_name,
-          via: client.address.via,
-          number: client.address.number,
-          neighborhood: client.address.neighborhood,
-          state: client.address.state,
-          city: client.address.city,
-          fix_phone: client.fix_phone,
-          cel_phone: client.cel_phone,
+          name: receiver.name,
+          reference_name: receiver.reference_name,
+          via: receiver.address.via,
+          number: receiver.address.number,
+          neighborhood: receiver.address.neighborhood,
+          state: receiver.address.state,
+          city: receiver.address.city,
+          fix_phone: receiver.fix_phone,
+          cel_phone: receiver.cel_phone,
         });
       } catch (err) {
-        dangerNotification("Erro", "Erro ao buscar cliente");
+        dangerNotification("Erro", "Erro ao buscar destinatario");
       }
     }
-    getClient();
+    getReceiver();
   }, []);
 
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
-        <FormClient
+        <FormReceiver
           form={form}
           setForm={setForm}
           handleSubmit={handleSubmit}
-          title={"Editar Cliente"}
+          title={"Editar Destinatário"}
           confirmButtonText={"Salvar Alteração"}
           type="editar"
         />
@@ -90,4 +88,4 @@ function EditClientPage(props) {
   );
 }
 
-export default EditClientPage;
+export default EditReceiverPage;

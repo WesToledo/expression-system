@@ -3,38 +3,38 @@ import { Page } from "tabler-react";
 
 import Wrapper from "~/components/Wrapper";
 
-import DataTableUsuarios from "./DataTableUser";
+import DataTableReceiver from "./DataTableReceiver";
 
 import api from "~/services/api";
 import { dangerNotification } from "~/services/notification";
 
-const UsuariosPage = (props) => {
-  const [users, setUsers] = useState(null);
+const Receiver = (props) => {
+  const [receivers, setReceivers] = useState(null);
 
-  async function getUsers() {
+  async function getReceivers() {
     try {
-      const response = await api.get("/user");
-      setUsers(response.data.user);
+      const response = await api.get("/receiver");
+      setReceivers(response.data.receiver);
     } catch (err) {
-      dangerNotification("Erro", "Erro ao buscar usuários");
+      dangerNotification("Erro", "Erro ao buscar destinatários");
     }
   }
 
   useEffect(() => {
-    getUsers();
+    getReceivers();
   }, []);
 
   useEffect(() => {
-    console.log(users);
-  }, [users]);
+    console.log(receivers);
+  }, [receivers]);
 
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
-        <Page.Card title="Usuários">
+        <Page.Card title="Destinatários">
           <div className="divList">
-            {users !== null ? (
-              <DataTableUsuarios users={users} getUsers={getUsers} />
+            {receivers !== null ? (
+              <DataTableReceiver receivers={receivers} getReceivers={getReceivers} />
             ) : (
               "Carregando informações"
             )}
@@ -45,4 +45,4 @@ const UsuariosPage = (props) => {
   );
 };
 
-export default UsuariosPage;
+export default Receiver;

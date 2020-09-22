@@ -9,9 +9,9 @@ import {
   dangerNotification,
 } from "~/services/notification";
 
-import FormClient from "./form";
+import FormReceiver from "./form";
 
-function CreateClientPage(props) {
+function CreateReceiverPage(props) {
   const [form, setForm] = useState({
     name: undefined,
     via: undefined,
@@ -19,7 +19,6 @@ function CreateClientPage(props) {
     neighborhood: undefined,
     state: undefined,
     city: undefined,
-    fix_phone: undefined,
     cel_phone: undefined,
     reference_name: undefined,
   });
@@ -27,7 +26,7 @@ function CreateClientPage(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const client = {
+      const receiver = {
         name: form.name,
         reference_name: form.reference_name,
         address: {
@@ -37,27 +36,26 @@ function CreateClientPage(props) {
           state: form.state,
           city: form.city,
         },
-        fix_phone: form.fix_phone,
         cel_phone: form.cel_phone,
       };
-      await api.post("/client/create", client);
-      successNotification("Sucesso", "Sucesso ao cadastrar cliente");
-      props.history.push("/clientes");
+      await api.post("/receiver/create", receiver);
+      successNotification("Sucesso", "Sucesso ao cadastrar destinatário");
+      props.history.push("/destinatarios");
     } catch (err) {
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao cadastrar cliente");
+      else dangerNotification("Erro", "Erro ao cadastrar destinatário");
     }
   };
 
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
-        <FormClient
+        <FormReceiver
           form={form}
           setForm={setForm}
           handleSubmit={handleSubmit}
-          title={"Cadastrar Cliente"}
+          title={"Cadastrar Destinatário"}
           confirmButtonText={"Salvar Cadastro"}
         />
       </Page.Content>
@@ -65,4 +63,4 @@ function CreateClientPage(props) {
   );
 }
 
-export default CreateClientPage;
+export default CreateReceiverPage;
