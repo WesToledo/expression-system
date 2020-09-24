@@ -4,7 +4,7 @@ import { Page, Button } from "tabler-react";
 import { Grid } from "tabler-react";
 
 import Wrapper from "~/components/Wrapper";
-import DataTablePackages from "~/pages/Home/Packages/DataTablePackages";
+import DataTablePackages from "~/pages/Home/DataTablePackages";
 
 function Home() {
   const [cargoIsOpen, setCargoiIsOpen] = useState(true);

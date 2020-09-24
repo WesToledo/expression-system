@@ -48,7 +48,7 @@ const DataTablePackages = ({ packages, getPackages }) => {
   const options = {
     selectableRowsOnClick: true,
     rowsSelected: rowSelected,
-    onRowsSelect: (rowsSelected, allRows) => {
+    onRowSelectionChange: (rowsSelected, allRows) => {
       //return de indexes of the selected rows
       setRowSelected(allRows.map((row) => row.dataIndex));
     },

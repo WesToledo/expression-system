@@ -69,7 +69,7 @@ const DataTablePackages = ({ packages, setPackages }) => {
   const options = {
     selectableRowsOnClick: true,
     rowsSelected: rowSelected,
-    onRowsSelect: (rowsSelected, allRows) => {
+    onRowSelectionChange: (rowsSelected, allRows) => {
       //return de indexes of the selected rows
       setRowSelected(allRows.map((row) => row.dataIndex));
     },
@@ -132,7 +132,7 @@ const DataTablePackages = ({ packages, setPackages }) => {
         data={data}
         currentRow={currentRow}
         columns={columns}
-        hrefAdd={"/carregamento/adcionar"}
+        hrefAdd={"/carregamento/adicionar"}
         setModalDelete={setModalDelete}
       />
 
