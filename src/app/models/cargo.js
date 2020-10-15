@@ -11,6 +11,10 @@ const CargoSchema = new mongoose.Schema({
       ref: "Transaction",
     },
   ],
+  month: {
+    type: String,
+    required: true,
+  },
   open: {
     type: Boolean,
     required: true,

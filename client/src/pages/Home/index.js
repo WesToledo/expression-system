@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Page, Button } from "tabler-react";
 
 import { Grid } from "tabler-react";
 
-import Wrapper from "~/components/Wrapper";
-import DataTablePackages from "~/pages/Home/DataTablePackages";
+import api from "~/services/api";
+import { getDate, getMonth } from "~/services/functions";
+import {
+  successNotification,
+  dangerNotification,
+} from "~/services/notification";
 
-function Home() {
-  const [cargoIsOpen, setCargoiIsOpen] = useState(true);
+import Wrapper from "~/components/Wrapper";
+import DataTablePackages from "~/pages/Home/DataTableCargo";
+
+function Home(props) {
+  const [cargo, setCargo] = useState({
+    open: false,
+  });
 
   const [packages, setPackages] = useState([
     {
@@ -20,12 +29,61 @@ function Home() {
     },
   ]);
 
+  async function handleCreateCargo() {
+    try {
+      await api.post("/cargo/create", {
+        date: getDate(),
+        month: getMonth(),
+        open: true,
+      });
+
+      successNotification("Sucesso", "Sucesso criar carregamento");
+      getCargo();
+    } catch (err) {
+      if (err.response.data.error)
+        dangerNotification("Erro", err.response.data.error);
+      else dangerNotification("Erro", "Erro ao criar carregamento");
+    }
+  }
+
+  async function getCargo() {
+    try {
+      const response = await api.get("/cargo");
+      if (response.data.cargo) setCargo(response.data.cargo);
+    } catch (err) {
+      if (err.response.data.error)
+        dangerNotification("Erro", err.response.data.error);
+      else dangerNotification("Erro", "Erro ao buscar carregamento");
+    }
+  }
+
+  useEffect(() => {
+    getCargo();
+  }, []);
+
+  useEffect(() => {
+    if (cargo.packages) {
+      setPackages(
+        cargo.packages.map((pack) => {
+          return {
+            id: pack._id,
+            client: pack.client.name,
+            receiver: pack.receiver.name,
+            amount: pack.volumes.length,
+            observations: pack.obs,
+            total: pack.total,
+          };
+        })
+      );
+    }
+  }, [cargo]);
+
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
         <Page.Card title="Carregamento">
           <Page.Content>
-            {packages.length ? (
+            {cargo.open ? (
               <Grid.Row>
                 <Grid.Col>
                   <DataTablePackages
@@ -43,6 +101,7 @@ function Home() {
                       color="success"
                       className=""
                       icon="plus"
+                      onClick={handleCreateCargo}
                     >
                       Criar Carregamento
                     </Button>
@@ -53,7 +112,7 @@ function Home() {
           </Page.Content>
           <Grid.Row>
             <Grid.Col>
-              {packages.length ? (
+              {cargo.open ? (
                 <div className="d-flex" style={{ float: "right" }}>
                   <Button
                     type="submit"

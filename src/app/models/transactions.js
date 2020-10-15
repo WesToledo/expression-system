@@ -52,6 +52,10 @@ const TransactionSchema = new mongoose.Schema({
   payday: {
     type: Date,
   },
+  obs: {
+    type: String,
+    default: "",
+  },
 });
 
 const Transaction = mongoose.model("Transaction", TransactionSchema);

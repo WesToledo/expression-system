@@ -10,14 +10,12 @@ import DataTableVolumes from "./DataTableVolumesOfPackage";
 const FormPackage = ({
   form,
   volumes,
-  clients,
-  receivers,
   handleSubmit,
   title,
   confirmButtonText,
 }) => {
-  const clientsOptions = [];
-  const receiverOptions = [];
+  const clientsOptions = useStateLink([]);
+  const receiverOptions = useStateLink([]);
   const availableVolumes = useStateLink([]);
 
   useEffect(() => {
@@ -30,26 +28,43 @@ const FormPackage = ({
       }
     }
 
+    async function getClients() {
+      try {
+        const response = await api.get("/client");
+        var aux = [];
+        response.data.client.forEach((client) => {
+          aux.push({
+            value: client._id,
+            label: client.name + ", " + client.reference_name,
+          });
+        });
+
+        clientsOptions.set(aux);
+      } catch (err) {
+        console.log("erro ao buscar clients", err);
+      }
+    }
+
+    async function getReceivers() {
+      try {
+        const response = await api.get("/receiver");
+        var aux = [];
+        response.data.receiver.forEach((receiver) => {
+          aux.push({
+            value: receiver._id,
+            label: receiver.name + ", " + receiver.reference_name,
+          });
+        });
+        receiverOptions.set(aux);
+      } catch (err) {
+        console.log("erro ao buscar receivers", err);
+      }
+    }
+
+    getClients();
+    getReceivers();
     getVolumes();
   }, []);
-
-  useEffect(() => {
-    clients.get().forEach((client) => {
-      clientsOptions.push({
-        value: client._id,
-        label: client.name + ", " + client.reference_name,
-      });
-    });
-  }, [clients]);
-
-  useEffect(() => {
-    receivers.get().forEach((receiver) => {
-      receiverOptions.push({
-        value: receiver._id,
-        label: receiver.name + ", " + receiver.reference_name,
-      });
-    });
-  }, [receivers]);
 
   function handleOnChangeSelect(selected, { name }) {
     form.set((f) => {
@@ -82,7 +97,7 @@ const FormPackage = ({
               <Button
                 icon="x"
                 RootComponent="a"
-                href="/volumes"
+                href="/home"
                 color="danger"
                 className="margin-btn"
               >
@@ -100,8 +115,8 @@ const FormPackage = ({
             <Form.Group isRequired label="De (Rementente)">
               <Select
                 name="client"
-                options={clientsOptions}
-                defaultValue={form.client}
+                options={clientsOptions.value}
+                defaultValue={{ ...form.get().client }}
                 onChange={handleOnChangeSelect}
               />
             </Form.Group>
@@ -110,8 +125,8 @@ const FormPackage = ({
             <Form.Group isRequired label="Para (Destinatário)">
               <Select
                 name="receiver"
-                options={receiverOptions}
-                defaultValue={form.receiver}
+                options={receiverOptions.value}
+                defaultValue={form.value.receiver}
                 onChange={handleOnChangeSelect}
               />
             </Form.Group>
@@ -135,7 +150,7 @@ const FormPackage = ({
               }
             >
               <Form.Textarea
-                defaultValue={form.obs}
+                defaultValue={form.value.obs}
                 onChange={handleOnChangeInput}
                 name="obs"
                 placeholder="Escreva aqui as observações sobre a entrega"
