@@ -1,7 +1,6 @@
 const ClientSchema = require("../models/client");
 
 async function create(req, res) {
-  console.log(req.body);
   try {
     const client = await ClientSchema.create(req.body);
 

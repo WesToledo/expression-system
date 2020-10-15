@@ -1,31 +1,40 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import AddIcon from '@material-ui/icons/Add';
-import { withStyles } from '@material-ui/core/styles';
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import AddIcon from "@material-ui/icons/Add";
+import { withStyles } from "@material-ui/core/styles";
 
 const defaultToolbarStyles = {
-  iconButton: {}
+  iconButton: {},
 };
 
-function CustomToolbar({ classes, tooltipAdd, hrefAdd }) {
+function CustomToolbar({ classes, tooltipAdd, hrefAdd, setModalAddVisible }) {
   return (
     <React.Fragment>
       <Tooltip title={tooltipAdd}>
-        <Link to={hrefAdd}>
+        {setModalAddVisible ? (
           <IconButton
-            className={'datatable-background-success'}
+            className={"datatable-background-success"}
+            onClick={() => {
+              setModalAddVisible();
+            }}
           >
             <AddIcon className={classes.deleteIcon} fontSize="small" />
           </IconButton>
-        </Link>
+        ) : (
+          <Link to={hrefAdd}>
+            <IconButton className={"datatable-background-success"}>
+              <AddIcon className={classes.deleteIcon} fontSize="small" />
+            </IconButton>
+          </Link>
+        )}
       </Tooltip>
     </React.Fragment>
   );
 }
 
-export default withStyles(defaultToolbarStyles, { name: 'CustomToolbar' })(
+export default withStyles(defaultToolbarStyles, { name: "CustomToolbar" })(
   CustomToolbar
 );

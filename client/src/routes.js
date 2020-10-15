@@ -9,7 +9,7 @@ import {
 
 import { isAuthenticated } from "~/services/auth";
 
-import Error404 from "./pages/404.react";
+import Error404 from "./pages/NotFound/404.react";
 
 import LoginPage from "~/pages/Login";
 
@@ -30,6 +30,9 @@ import EditReceiverPage from "./pages/Receivers/UpdateReceiver";
 import PackagePage from "~/pages/Packages";
 import CreatePackagePage from "~/pages/Packages/CreatePackage";
 import EditPackagePage from "./pages/Packages/UpdatePackage";
+
+import AddPackagePage from "~/pages/Home/Packages/AddPackageToCargoPage";
+import EditPackageOfCargo from "~/pages/Home/Packages/EditPackageOfCargo";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -67,6 +70,10 @@ function App() {
         <PrivateRoute exact path="/volumes" component={PackagePage} />
         <PrivateRoute exact path="/volumes/cadastrar" component={CreatePackagePage} />
         <PrivateRoute exact path="/volumes/editar/:id" component={EditPackagePage} />
+
+        <PrivateRoute exact path="/carregamento/adicionar" component={AddPackagePage} />
+        <PrivateRoute exact path="/carregamento/editar/:id" component={EditPackageOfCargo} />
+
         
         <Route component={Error404} />
       </Switch>
