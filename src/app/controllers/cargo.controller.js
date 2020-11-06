@@ -1,5 +1,5 @@
 const CargoSchema = require("../models/cargo");
-const { populate } = require("../models/cargo");
+const TransactionSchema = require("../models/transactions");
 
 async function create(req, res) {
   try {
@@ -35,9 +35,19 @@ async function index(req, res) {
   }
 }
 
-async function update(req, res) {
+async function finish(req, res) {
   try {
-  } catch (err) {}
+    const cargo = await CargoSchema.findByIdAndUpdate(
+      req.params.id,
+      { open: false, total: req.body.total },
+      {
+        new: true,
+      }
+    );
+    return res.send({ cargo });
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao editar cliente" });
+  }
 }
 
-module.exports = { create, index, update };
+module.exports = { create, index, finish };

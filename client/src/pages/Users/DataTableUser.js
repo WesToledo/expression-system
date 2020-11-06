@@ -125,6 +125,7 @@ const DataTableusers = ({ users, getUsers }) => {
         columns={columns}
         hrefAdd={"/usuarios/cadastrar"}
         setModalDelete={setModalDelete}
+        showEdit={true}
       />
 
       <Modal show={modalDelete.show} animation={true}>

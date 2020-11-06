@@ -72,13 +72,7 @@ function AddPackagePage(props) {
           title={"Adicionar Volume"}
           confirmButtonText={"Salvar"}
         />
-        <h1>
-          {volumes.get().length
-            ? volumes.get().reduce((accumulator, current) => {
-                return { total: accumulator.total + current.total };
-              }).total
-            : "0"}
-        </h1>
+        
       </Page.Content>
     </Wrapper>
   );

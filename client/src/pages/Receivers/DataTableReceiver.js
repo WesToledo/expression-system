@@ -133,6 +133,7 @@ const DataTableReceivers = ({ receivers, getReceivers }) => {
         columns={columns}
         hrefAdd={"/destinatarios/cadastrar"}
         setModalDelete={setModalDelete}
+        showEdit={true}
       />
 
       <Modal show={modalDelete.show} animation={true}>

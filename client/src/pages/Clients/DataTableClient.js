@@ -140,6 +140,7 @@ const DataTableClients = ({ clients, getClients }) => {
         columns={columns}
         hrefAdd={"/clientes/cadastrar"}
         setModalDelete={setModalDelete}
+        showEdit={true}
       />
 
       <Modal show={modalDelete.show} animation={true}>
