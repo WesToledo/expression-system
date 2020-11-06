@@ -18,16 +18,9 @@ function Home(props) {
     open: false,
   });
 
-  const [packages, setPackages] = useState([
-    {
-      id: "asdasdasda",
-      client: "Eu",
-      receiver: "Eu de SP",
-      amount: 3,
-      observations: "altas observações",
-      total: 10,
-    },
-  ]);
+  const [total, setTotal] = useState(0);
+
+  const [packages, setPackages] = useState([]);
 
   async function handleCreateCargo() {
     try {
@@ -46,11 +39,29 @@ function Home(props) {
     }
   }
 
+  async function handleFinish() {
+    try {
+      await api.put("/cargo/finish/" + cargo._id, {
+        total: total,
+      });
+
+      successNotification("Sucesso", "Sucesso ao fechar carregamento");
+      setCargo({
+        open: false,
+      });
+    } catch (err) {
+      if (err.response.data.error)
+        dangerNotification("Erro", err.response.data.error);
+      else dangerNotification("Erro", "Erro ao fechar carregamento");
+    }
+  }
+
   async function getCargo() {
     try {
       const response = await api.get("/cargo");
       if (response.data.cargo) setCargo(response.data.cargo);
     } catch (err) {
+      console.log(err);
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
       else dangerNotification("Erro", "Erro ao buscar carregamento");
@@ -78,6 +89,24 @@ function Home(props) {
     }
   }, [cargo]);
 
+  useEffect(() => {
+    console.log(
+      packages.length
+        ? packages.reduce((accumulator, current) => {
+            return { total: accumulator.total + current.total };
+          }).total
+        : 0
+    );
+
+    setTotal(
+      packages.length
+        ? packages.reduce((accumulator, current) => {
+            return { total: accumulator.total + current.total };
+          }).total
+        : 0
+    );
+  }, [packages]);
+
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
@@ -86,10 +115,7 @@ function Home(props) {
             {cargo.open ? (
               <Grid.Row>
                 <Grid.Col>
-                  <DataTablePackages
-                    packages={packages}
-                    setPackages={setPackages}
-                  />
+                  <DataTablePackages packages={packages} getCargo={getCargo} />
                 </Grid.Col>
               </Grid.Row>
             ) : (
@@ -110,23 +136,38 @@ function Home(props) {
               </Grid.Row>
             )}
           </Page.Content>
-          <Grid.Row>
-            <Grid.Col>
-              {cargo.open ? (
-                <div className="d-flex" style={{ float: "right" }}>
+          {cargo.open ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                flexDirection: "column",
+              }}
+            >
+              <div>
+                <Grid.Col>
+                  <h2>
+                    Total: {String("R$" + total.toFixed(2)).replace(".", ",")}
+                  </h2>
+                </Grid.Col>
+              </div>
+
+              <div>
+                <Grid.Col>
                   <Button
                     type="submit"
                     color="danger"
                     className="ml-auto margin-btn"
+                    onClick={handleFinish}
                   >
                     Terminar Carregamento
                   </Button>
-                </div>
-              ) : (
-                ""
-              )}
-            </Grid.Col>
-          </Grid.Row>
+                </Grid.Col>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </Page.Card>
       </Page.Content>
     </Wrapper>

@@ -62,8 +62,9 @@ transactionRouter.delete("/remove/:id", transaction.remove);
 const cargoRouter = express.Router();
 cargoRouter.use(authMiddleware);
 cargoRouter.post("/create", cargo.create);
-packageRouter.put("/update/:id", cargo.update);
 cargoRouter.get("/", cargo.index);
+cargoRouter.put("/finish/:id", cargo.finish);
+
 
 module.exports = {
   rootRouter,

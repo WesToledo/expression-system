@@ -113,6 +113,7 @@ const DataTablePackages = ({ packages, getPackages }) => {
         columns={columns}
         hrefAdd={"/volumes/cadastrar"}
         setModalDelete={setModalDelete}
+        showEdit={true}
       />
 
       <Modal show={modalDelete.show} animation={true}>

@@ -12,7 +12,7 @@ import {
 
 import DataTable from "~/components/DataTable";
 
-const DataTablePackages = ({ packages, setPackages }) => {
+const DataTablePackages = ({ packages, getCargo }) => {
   const [data, setData] = useState([]);
   const [rowSelected, setRowSelected] = useState();
   const columns = [
@@ -108,16 +108,17 @@ const DataTablePackages = ({ packages, setPackages }) => {
 
   const handleDelete = async () => {
     try {
-      await api.delete("/cargo/remove/" + modalDelete.id);
-      successNotification("Sucesso", "Sucesso ao deletar volume");
+      await api.delete("/transaction/remove/" + modalDelete.id);
+      successNotification("Sucesso", "Sucesso ao deletar volume do carregamento");
 
-      setPackages();
+      getCargo()
       setModalDelete({ id: undefined, show: false });
       setRowSelected([]);
     } catch (err) {
+      console.log(err)
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao deletar volume");
+      else dangerNotification("Erro", "Erro ao deletar volume do carregamento");
     }
   };
 
@@ -139,7 +140,7 @@ const DataTablePackages = ({ packages, setPackages }) => {
         columns={columns}
         hrefAdd={"/carregamento/adicionar"}
         setModalDelete={setModalDelete}
-        showEdit={true}
+        showEdit={false}
       />
 
       <Modal show={modalDelete.show} animation={true}>

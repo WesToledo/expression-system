@@ -49,7 +49,11 @@ async function list(req, res) {
 
 async function remove(req, res) {
   try {
-  } catch (err) {}
+    await TransactionSchema.findByIdAndRemove(req.params.id);
+    return res.status(200).send();
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao deletar carregamento", err });
+  }
 }
 
 module.exports = { create, index, list, remove };

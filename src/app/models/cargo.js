@@ -27,6 +27,7 @@ const CargoSchema = new mongoose.Schema({
   },
 });
 
+
 const Cargo = mongoose.model("Cargo", CargoSchema);
 
 module.exports = Cargo;
