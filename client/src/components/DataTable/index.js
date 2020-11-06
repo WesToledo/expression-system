@@ -18,7 +18,8 @@ const DataTable = ({
   setModalDelete,
   setModalAddVisible,
   setModalDeleteVisible,
-  showEdit
+  showEdit,
+  showAdd,
 }) => {
   const currentRowSelected = useStateLink(currentRow);
 
@@ -68,6 +69,7 @@ const DataTable = ({
           tooltipAdd={tooltipAdd}
           hrefAdd={hrefAdd}
           setModalAddVisible={setModalAddVisible}
+          showAdd={showAdd !== undefined ? showAdd : true}
         />
       );
     },

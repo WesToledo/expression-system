@@ -42,7 +42,7 @@ function Home(props) {
   async function handleFinish() {
     try {
       await api.put("/cargo/finish/" + cargo._id, {
-        total: total,
+        total: Number(total.toFixed(2)),
       });
 
       successNotification("Sucesso", "Sucesso ao fechar carregamento");

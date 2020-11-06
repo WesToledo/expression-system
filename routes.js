@@ -63,8 +63,8 @@ const cargoRouter = express.Router();
 cargoRouter.use(authMiddleware);
 cargoRouter.post("/create", cargo.create);
 cargoRouter.get("/", cargo.index);
+cargoRouter.get("/all", cargo.list);
 cargoRouter.put("/finish/:id", cargo.finish);
-
 
 module.exports = {
   rootRouter,

@@ -35,6 +35,16 @@ async function index(req, res) {
   }
 }
 
+async function list(req, res) {
+  try {
+    const cargos = await CargoSchema.find({ open: false });
+
+    return res.send({ cargos });
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao buscar entregas" });
+  }
+}
+
 async function finish(req, res) {
   try {
     const cargo = await CargoSchema.findByIdAndUpdate(
@@ -50,4 +60,4 @@ async function finish(req, res) {
   }
 }
 
-module.exports = { create, index, finish };
+module.exports = { create, index, finish, list };

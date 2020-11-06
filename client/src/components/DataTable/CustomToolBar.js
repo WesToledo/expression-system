@@ -10,7 +10,13 @@ const defaultToolbarStyles = {
   iconButton: {},
 };
 
-function CustomToolbar({ classes, tooltipAdd, hrefAdd, setModalAddVisible }) {
+function CustomToolbar({
+  classes,
+  tooltipAdd,
+  hrefAdd,
+  setModalAddVisible,
+  showAdd,
+}) {
   return (
     <React.Fragment>
       <Tooltip title={tooltipAdd}>
@@ -23,12 +29,14 @@ function CustomToolbar({ classes, tooltipAdd, hrefAdd, setModalAddVisible }) {
           >
             <AddIcon className={classes.deleteIcon} fontSize="small" />
           </IconButton>
-        ) : (
+        ) : showAdd ? (
           <Link to={hrefAdd}>
             <IconButton className={"datatable-background-success"}>
-              <AddIcon className={classes.deleteIcon} fontSize="small" />
+              <AddIcon fontSize="small" />
             </IconButton>
           </Link>
+        ) : (
+          <></>
         )}
       </Tooltip>
     </React.Fragment>

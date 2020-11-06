@@ -2,17 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useStateLink } from "@hookstate/core";
 import { Button } from "tabler-react";
 
+import IconButton from "@material-ui/core/IconButton";
+import { KeyboardArrowRight } from "@material-ui/icons";
+
 import { Modal } from "react-bootstrap";
 
 import api from "services/api";
+
 import {
   dangerNotification,
   successNotification,
 } from "~/services/notification";
 
+import { getFormatedDate } from "~/services/functions";
+
 import DataTable from "~/components/DataTable";
 
-const DataTableCargo = ({ packages, getCargo }) => {
+const DataTableCargo = ({ cargos, getCargos }) => {
   const [data, setData] = useState([]);
   const [rowSelected, setRowSelected] = useState();
   const columns = [
@@ -25,38 +31,33 @@ const DataTableCargo = ({ packages, getCargo }) => {
       },
     },
     {
-      name: "client",
-      label: "Remetente",
-      options: {
-        display: true,
-      },
-    },
-    {
-      name: "receiver",
-      label: "Destinatário",
+      name: "date",
+      label: "Data",
       options: {
         display: true,
       },
     },
     {
       name: "amount",
-      label: "Quantidade",
-      options: {
-        display: true,
-      },
-    },
-    {
-      name: "observations",
-      label: "Observações",
+      label: "Quantidade de volumes",
       options: {
         display: true,
       },
     },
     {
       name: "total",
-      label: "Total",
+      label: "Valor Total",
       options: {
         display: true,
+      },
+    },
+    {
+      name: "actions",
+      label: "Ações",
+      options: {
+        display: true,
+        filter: false,
+        viewColumns: false,
       },
     },
   ];
@@ -67,7 +68,8 @@ const DataTableCargo = ({ packages, getCargo }) => {
   });
 
   const options = {
-    selectableRowsOnClick: true,
+    selectableRowsOnClick: false,
+    selectableRows: "none",
     rowsSelected: rowSelected,
     onRowSelectionChange: (rowsSelected, allRows) => {
       //return de indexes of the selected rows
@@ -88,7 +90,7 @@ const DataTableCargo = ({ packages, getCargo }) => {
 
   useEffect(() => {
     refreshDataTable();
-  }, [packages]);
+  }, [cargos]);
 
   const [modalDelete, setModalDelete] = useState({
     show: false,
@@ -97,10 +99,17 @@ const DataTableCargo = ({ packages, getCargo }) => {
 
   function refreshDataTable() {
     var rows = [];
-    packages.map((pack) => {
+    cargos.map((cargo) => {
       rows.push({
-        ...pack,
-        total: "R$ " + pack.total.toFixed(2).replace(".", ","),
+        ...cargo,
+        date: getFormatedDate(cargo.date),
+        total: "R$ " + cargo.total.toFixed(2).replace(".", ","),
+        amount: cargo.packages.length,
+        actions: (
+          <IconButton >
+            <KeyboardArrowRight fontSize="small" />
+          </IconButton>
+        ),
       });
     });
     setData(rows);
@@ -109,13 +118,16 @@ const DataTableCargo = ({ packages, getCargo }) => {
   const handleDelete = async () => {
     try {
       await api.delete("/transaction/remove/" + modalDelete.id);
-      successNotification("Sucesso", "Sucesso ao deletar volume do carregamento");
+      successNotification(
+        "Sucesso",
+        "Sucesso ao deletar volume do carregamento"
+      );
 
-      getCargo()
+      getCargos();
       setModalDelete({ id: undefined, show: false });
       setRowSelected([]);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
       else dangerNotification("Erro", "Erro ao deletar volume do carregamento");
@@ -124,13 +136,13 @@ const DataTableCargo = ({ packages, getCargo }) => {
 
   useEffect(() => {
     console.log(currentRow.get());
-    console.log(packages);
+    console.log(cargos);
   }, [currentRow]);
 
   return (
     <>
       <DataTable
-        title={"Volumes"}
+        title={""}
         tooltipEdit={"Editar volume"}
         tooltipDelete={"Deletar volume"}
         tooltipAdd={"Adicionar novo volume"}
@@ -141,6 +153,7 @@ const DataTableCargo = ({ packages, getCargo }) => {
         hrefAdd={"/carregamento/adicionar"}
         setModalDelete={setModalDelete}
         showEdit={false}
+        showAdd={false}
       />
 
       <Modal show={modalDelete.show} animation={true}>
