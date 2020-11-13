@@ -64,6 +64,7 @@ cargoRouter.use(authMiddleware);
 cargoRouter.post("/create", cargo.create);
 cargoRouter.get("/", cargo.index);
 cargoRouter.get("/all", cargo.list);
+cargoRouter.get("/one/:id", cargo.getOne)
 cargoRouter.put("/finish/:id", cargo.finish);
 
 module.exports = {

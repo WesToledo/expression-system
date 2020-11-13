@@ -18,9 +18,8 @@ import { getFormatedDate } from "~/services/functions";
 
 import DataTable from "~/components/DataTable";
 
-const DataTableCargo = ({ cargos, getCargos, history }) => {
+const DataTableDetail = ({ packages }) => {
   const [data, setData] = useState([]);
-  const [rowSelected, setRowSelected] = useState();
   const columns = [
     {
       name: "id",
@@ -31,89 +30,81 @@ const DataTableCargo = ({ cargos, getCargos, history }) => {
       },
     },
     {
-      name: "date",
-      label: "Data",
+      name: "client",
+      label: "Remetente",
+      options: {
+        display: true,
+      },
+    },
+    {
+      name: "receiver",
+      label: "Destinatário",
       options: {
         display: true,
       },
     },
     {
       name: "amount",
-      label: "Quantidade de volumes",
+      label: "Quantidade",
+      options: {
+        display: true,
+      },
+    },
+    {
+      name: "volumes",
+      label: "Volumes",
+      options: {
+        display: true,
+      },
+    },
+
+    {
+      name: "observations",
+      label: "Observações",
       options: {
         display: true,
       },
     },
     {
       name: "total",
-      label: "Valor Total",
+      label: "Total",
       options: {
         display: true,
-      },
-    },
-    {
-      name: "actions",
-      label: "Ações",
-      options: {
-        display: true,
-        filter: false,
-        viewColumns: false,
       },
     },
   ];
 
-  const currentRow = useStateLink({
-    id: null,
-    hrefEdit: "/carregamento/editar/",
-  });
-
   const options = {
     selectableRowsOnClick: false,
     selectableRows: "none",
-    rowsSelected: rowSelected,
-    onRowSelectionChange: (rowsSelected, allRows) => {
-      //return de indexes of the selected rows
-      setRowSelected(allRows.map((row) => row.dataIndex));
-    },
   };
 
   useEffect(() => {
-    if (data.length) {
-      if (rowSelected.length) {
-        currentRow.set({
-          ...currentRow.get(),
-          id: data[rowSelected].id,
-        });
-      }
-    }
-  }, [rowSelected]);
-
-  useEffect(() => {
     refreshDataTable();
-  }, [cargos]);
+  }, [packages]);
 
   function refreshDataTable() {
     var rows = [];
-    cargos.map((cargo) => {
+    packages.map((pack) => {
       rows.push({
-        ...cargo,
-        date: getFormatedDate(cargo.date),
-        total: "R$ " + cargo.total.toFixed(2).replace(".", ","),
-        amount: cargo.packages.length,
-        actions: (
-          <IconButton href={"/entregas/" + cargo._id}>
-            <KeyboardArrowRight fontSize="small" />
-          </IconButton>
-        ),
+        ...pack,
+        client: pack.client.name,
+        receiver: pack.receiver.name,
+        amount: pack.volumes
+          .map((volume) => volume.amount)
+          .reduce((total, num) => total + num),
+        total: "R$ " + pack.total.toFixed(2).replace(".", ","),
+        volumes: pack.volumes
+          .map((volume) => volume.amount + " " + volume.name)
+          .join(", "),
       });
     });
     setData(rows);
   }
 
   useEffect(() => {
-    console.log(currentRow.get());
-    console.log(cargos);
-  }, [currentRow]);
+    console.log(packages);
+  }, [packages]);
 
   return (
     <DataTable
@@ -121,15 +112,14 @@ const DataTableCargo = ({ cargos, getCargos, history }) => {
       tooltipEdit={"Editar volume"}
       tooltipDelete={"Deletar volume"}
       tooltipAdd={"Adicionar novo volume"}
+      currentRow={{ _id: "", name: "" }}
       options={options}
       data={data}
-      currentRow={currentRow}
       columns={columns}
-      hrefAdd={"/carregamento/adicionar"}
       showEdit={false}
       showAdd={false}
     />
   );
 };
 
-export default DataTableCargo;
+export default DataTableDetail;

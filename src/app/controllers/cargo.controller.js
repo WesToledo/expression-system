@@ -60,4 +60,26 @@ async function finish(req, res) {
   }
 }
 
-module.exports = { create, index, finish, list };
+async function getOne(req, res) {
+  try {
+    const cargo = await CargoSchema.findOne({ _id: req.params.id }).populate({
+      path: "packages",
+      populate: [
+        {
+          path: "client",
+          select: "name",
+        },
+        {
+          path: "receiver",
+          select: "name",
+        },
+      ],
+    });
+
+    return res.send({ cargo });
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao buscar carregamento" });
+  }
+}
+
+module.exports = { create, index, finish, list, getOne };
