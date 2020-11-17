@@ -26,7 +26,7 @@ const DataTable = ({
   options = {
     filter: true,
     filterType: "dropdown",
-    responsive: "simple",
+    responsive: "vertical",
     rowsPerPage: 10,
     selectableRows: "single",
     textLabels: {

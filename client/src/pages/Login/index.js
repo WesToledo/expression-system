@@ -36,7 +36,14 @@ function LoginPage(props) {
           });
           const { token, user } = response.data;
           setLoginCache(token, user._id, user.name, user.type);
-          props.history.push("/home");
+          switch (user.type) {
+            case "Admin":
+              props.history.push("/home");
+              break;
+            case "DeliverMan":
+              props.history.push("/entregador");
+              break;
+          }
         } catch (err) {
           setTextButton({ text: "Entrar" });
           setErrors({ email: "Erro ao tentar logar" });

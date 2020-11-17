@@ -37,6 +37,8 @@ import EditPackageOfCargo from "~/pages/Home/Packages/EditPackageOfCargo";
 import CargoPage from "~/pages/Cargo/index";
 import CargoDetailPage from "~/pages/Cargo/CargoDetailPage";
 
+import DeliveryManPage from "~/pages/DeliverMan";
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
@@ -118,8 +120,9 @@ function App() {
         />
 
         <PrivateRoute exact path="/entregas" component={CargoPage} />
-
         <PrivateRoute exact path="/entregas/:id" component={CargoDetailPage} />
+
+        <PrivateRoute exact path="/entregador" component={DeliveryManPage} />
 
         <Route component={Error404} />
       </Switch>

@@ -56,6 +56,13 @@ const TransactionSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  sent: { type: Boolean, required: true, default: false }, // put inside de truck to transport
+  delivered: {
+    // delivery to receiver
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 const Transaction = mongoose.model("Transaction", TransactionSchema);

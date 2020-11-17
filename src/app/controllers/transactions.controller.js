@@ -56,4 +56,21 @@ async function remove(req, res) {
   }
 }
 
-module.exports = { create, index, list, remove };
+async function delivered(req, res) {
+  try {
+    const delivered = await TransactionSchema.findByIdAndUpdate(
+      req.params.id,
+      { delivered: true },
+      {
+        new: true,
+      }
+    )
+      .populate("client", "name")
+      .populate("receiver", "name");
+    return res.send({ package: delivered });
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao editar cliente" });
+  }
+}
+
+module.exports = { create, index, list, remove, delivered };

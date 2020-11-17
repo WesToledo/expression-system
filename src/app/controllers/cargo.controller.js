@@ -45,7 +45,7 @@ async function list(req, res) {
   }
 }
 
-async function finish(req, res) {
+async function finishCargo(req, res) {
   try {
     const cargo = await CargoSchema.findByIdAndUpdate(
       req.params.id,
@@ -82,4 +82,49 @@ async function getOne(req, res) {
   }
 }
 
-module.exports = { create, index, finish, list, getOne };
+async function getNotFinish(req, res) {
+  try {
+    const cargo = await CargoSchema.findOne({ finished: false }).populate({
+      path: "packages",
+      populate: [
+        {
+          path: "client",
+          select: "name",
+        },
+        {
+          path: "receiver",
+          select: "name",
+        },
+      ],
+    });
+
+    return res.send({ cargo });
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao buscar carregamento" });
+  }
+}
+
+async function finishDelivery(req, res) {
+  try {
+    const cargo = await CargoSchema.findByIdAndUpdate(
+      req.params.id,
+      { finished: true },
+      {
+        new: true,
+      }
+    );
+    return res.send({ cargo });
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao editar cliente" });
+  }
+}
+
+module.exports = {
+  create,
+  index,
+  finishCargo,
+  list,
+  getOne,
+  getNotFinish,
+  finishDelivery,
+};
