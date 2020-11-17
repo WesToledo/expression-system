@@ -8,28 +8,33 @@ const ReceiverSchema = new mongoose.Schema({
   address: {
     via: {
       type: String,
-      required: true,
+      default: "",
     },
     number: {
-      type: Number,
-      required: true,
+      type: String,
+      default: "",
     },
     neighborhood: {
       type: String,
-      required: true,
+      default: "",
     },
     state: {
       type: String,
-      required: true,
+      default: "",
     },
-    city: { type: String, required: true },
+    city: { type: String, default: "" },
+  },
+  fix_phone: {
+    type: String,
+    default: "",
   },
   cel_phone: {
     type: String,
-    required: true,
+    default: "",
   },
   reference_name: {
     type: String,
+    default: "",
   },
 });
 
