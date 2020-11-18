@@ -57,13 +57,18 @@ transactionRouter.post("/create", transaction.create);
 transactionRouter.get("/", transaction.list);
 transactionRouter.get("/:id", transaction.index);
 transactionRouter.delete("/remove/:id", transaction.remove);
+transactionRouter.put("/delivered/:id", transaction.delivered);
 
 // Cargo
 const cargoRouter = express.Router();
 cargoRouter.use(authMiddleware);
 cargoRouter.post("/create", cargo.create);
 cargoRouter.get("/", cargo.index);
-cargoRouter.put("/finish/:id", cargo.finish);
+cargoRouter.get("/all", cargo.list);
+cargoRouter.get("/one/:id", cargo.getOne);
+cargoRouter.put("/finish/:id", cargo.finishCargo);
+cargoRouter.get("/not-finish", cargo.getNotFinish);
+cargoRouter.put("/finish-delivery/:id", cargo.finishDelivery);
 
 
 module.exports = {

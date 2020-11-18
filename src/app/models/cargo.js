@@ -25,6 +25,11 @@ const CargoSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  finished: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 

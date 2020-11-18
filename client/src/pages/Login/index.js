@@ -6,7 +6,7 @@ import api from "~/services/api";
 import { login as setLoginCache } from "~/services/auth";
 
 import { StandaloneFormPage, FormCard, FormTextInput } from "tabler-react";
-import logoImg from "~/assets/img/tabler.png";
+import logoImg from "~/assets/img/delivery-box.png";
 
 function LoginPage(props) {
   const [textButton, setTextButton] = useState({ text: "Entrar" });
@@ -34,8 +34,16 @@ function LoginPage(props) {
             login,
             password,
           });
-          setLoginCache(response.data.token, response.data.user._id);
-          props.history.push("/home");
+          const { token, user } = response.data;
+          setLoginCache(token, user._id, user.name, user.type);
+          switch (user.type) {
+            case "Admin":
+              props.history.push("/home");
+              break;
+            case "DeliverMan":
+              props.history.push("/entregador");
+              break;
+          }
         } catch (err) {
           setTextButton({ text: "Entrar" });
           setErrors({ email: "Erro ao tentar logar" });

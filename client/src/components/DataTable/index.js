@@ -18,14 +18,15 @@ const DataTable = ({
   setModalDelete,
   setModalAddVisible,
   setModalDeleteVisible,
-  showEdit
+  showEdit,
+  showAdd,
 }) => {
   const currentRowSelected = useStateLink(currentRow);
 
   options = {
     filter: true,
     filterType: "dropdown",
-    responsive: "simple",
+    responsive: "vertical",
     rowsPerPage: 10,
     selectableRows: "single",
     textLabels: {
@@ -68,6 +69,7 @@ const DataTable = ({
           tooltipAdd={tooltipAdd}
           hrefAdd={hrefAdd}
           setModalAddVisible={setModalAddVisible}
+          showAdd={showAdd !== undefined ? showAdd : true}
         />
       );
     },

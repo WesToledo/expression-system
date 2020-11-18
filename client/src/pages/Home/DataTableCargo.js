@@ -12,7 +12,7 @@ import {
 
 import DataTable from "~/components/DataTable";
 
-const DataTablePackages = ({ packages, getCargo }) => {
+const DataTableCargo = ({ packages, getCargo }) => {
   const [data, setData] = useState([]);
   const [rowSelected, setRowSelected] = useState();
   const columns = [
@@ -173,4 +173,4 @@ const DataTablePackages = ({ packages, getCargo }) => {
   );
 };
 
-export default DataTablePackages;
+export default DataTableCargo;

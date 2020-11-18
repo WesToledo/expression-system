@@ -1,45 +1,50 @@
 import * as React from "react";
-import { withRouter } from "react-router-dom";
-import avatar from "~/assets/img/avatar.png";
 import { Site, RouterContextProvider } from "tabler-react";
+import { withRouter } from "react-router-dom";
+
+import avatar from "~/assets/img/avatar.png";
+
+import { getUserInfo } from "~/services/auth";
 
 const navBarItems = [
   {
     value: "Usuarios",
-    icon: "plus-square",
+    icon: "user",
     to: "/usuarios",
   },
   {
     value: "Volumes",
-    icon: "plus-square",
+    icon: "box",
     to: "/volumes",
   },
   {
     value: "Clientes",
-    icon: "plus-square",
+    icon: "user",
     to: "/clientes",
   },
   {
     value: "Destinatários",
-    icon: "plus-square",
+    icon: "home",
     to: "/destinatarios",
   },
   {
     value: "Entregas",
-    icon: "plus-square",
+    icon: "truck",
     to: "/entregas",
   },
   {
     value: "Financeiro",
-    icon: "plus-square",
+    icon: "dollar-sign",
     to: "/financeiro",
   },
 ];
 
+const userInfo = getUserInfo();
+
 const accountDropdownProps = {
   avatarURL: avatar,
-  name: "Proprietário",
-  description: "Administrador",
+  name: userInfo.name,
+  description: userInfo.type === "Admin" ? "Administrador" : "Entregador",
   options: [
     { icon: "user", value: "Perfil" },
     { isDivider: true },
@@ -95,7 +100,7 @@ class SiteWrapper extends React.Component {
         headerProps={{
           href: "/home",
           alt: "Nome empresa",
-          imageURL: "/assets/tabler.png",
+          imageURL: "/assets/delivery-box.png",
           // notificationsTray: {
           //   notificationsObjects,
           //   markAllAsRead: () =>

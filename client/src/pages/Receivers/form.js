@@ -76,7 +76,7 @@ const FormClient = ({
         </Grid.Row>
         <Grid.Row>
           <Grid.Col md={12} lg={6} sm={12}>
-            <Form.Group isRequired label="Endereço">
+            <Form.Group label="Endereço">
               <Form.Input
                 name="via"
                 placeholder="Digite o endereço..."
@@ -87,7 +87,7 @@ const FormClient = ({
           </Grid.Col>
 
           <Grid.Col md={12} lg={1} sm={12}>
-            <Form.Group isRequired label="Número">
+            <Form.Group label="Número">
               <Form.Input
                 name="number"
                 type="Number"
@@ -98,7 +98,7 @@ const FormClient = ({
           </Grid.Col>
 
           <Grid.Col md={12} lg={3} sm={12}>
-            <Form.Group isRequired label="Bairro">
+            <Form.Group label="Bairro">
               <Form.Input
                 name="neighborhood"
                 placeholder="Digite o bairro..."
@@ -108,7 +108,7 @@ const FormClient = ({
             </Form.Group>
           </Grid.Col>
           <Grid.Col md={12} lg={2} sm={12}>
-            <Form.Group isRequired label="Estado">
+            <Form.Group label="Estado">
               <Form.Input
                 name="state"
                 placeholder="Digite o estado..."
@@ -120,7 +120,7 @@ const FormClient = ({
         </Grid.Row>
         <Grid.Row>
           <Grid.Col md={12} lg={2} sm={12}>
-            <Form.Group isRequired label="Cidade">
+            <Form.Group label="Cidade">
               <Form.Input
                 name="city"
                 placeholder="Digite o cidade..."
@@ -133,7 +133,7 @@ const FormClient = ({
 
         <Grid.Row>
           <Grid.Col md={12} lg={2} sm={12}>
-            <Form.Group isRequired label="Telefone Celular">
+            <Form.Group label="Telefone Celular">
               <Form.MaskedInput
                 placeholder="Informe o telefone..."
                 mask={[
