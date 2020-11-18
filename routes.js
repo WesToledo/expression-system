@@ -9,6 +9,7 @@ const receiver = require("./src/app/controllers/receiver.controller");
 const package = require("./src/app/controllers/package.controller");
 const transaction = require("./src/app/controllers/transactions.controller");
 const cargo = require("./src/app/controllers/cargo.controller");
+const financial = require("./src/app/controllers/financial.controller");
 
 //Auth
 const rootRouter = express.Router();
@@ -70,6 +71,13 @@ cargoRouter.put("/finish/:id", cargo.finishCargo);
 cargoRouter.get("/not-finish", cargo.getNotFinish);
 cargoRouter.put("/finish-delivery/:id", cargo.finishDelivery);
 
+const financialRouter = express.Router();
+financialRouter.use(authMiddleware);
+financialRouter.get("/list-by-client/:id", financial.listTransactionsByClient);
+financialRouter.get(
+  "/list-by-client-and-month/:id/:month",
+  financial.listTransactionsByClientAndMonth
+);
 
 module.exports = {
   rootRouter,
@@ -79,4 +87,5 @@ module.exports = {
   packageRouter,
   transactionRouter,
   cargoRouter,
+  financialRouter,
 };

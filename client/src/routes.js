@@ -37,6 +37,10 @@ import EditPackageOfCargo from "~/pages/Home/Packages/EditPackageOfCargo";
 import CargoPage from "~/pages/Cargo/index";
 import CargoDetailPage from "~/pages/Cargo/CargoDetailPage";
 
+import FinancialPage from "~/pages/Financial";
+import FinancialDetailPage from "~/pages/Financial/Details";
+import DeliverysPage from "~/pages/Financial/Details/Deliverys";
+
 import DeliveryManPage from "~/pages/DeliverMan";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -123,6 +127,14 @@ function App() {
         <PrivateRoute exact path="/entregas/:id" component={CargoDetailPage} />
 
         <PrivateRoute exact path="/entregador" component={DeliveryManPage} />
+
+        <PrivateRoute exact path="/financeiro" component={FinancialPage} />
+        <PrivateRoute
+          exact
+          path="/financeiro/:id"
+          component={FinancialDetailPage}
+        />
+        <PrivateRoute exact path="/financeiro/:id/:month" component={DeliverysPage} />
 
         <Route component={Error404} />
       </Switch>

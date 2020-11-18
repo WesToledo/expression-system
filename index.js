@@ -11,6 +11,7 @@ const {
   packageRouter,
   transactionRouter,
   cargoRouter,
+  financialRouter,
 } = require("./routes");
 
 const app = express();
@@ -27,6 +28,7 @@ app.use("/api/receiver", receiverRouter);
 app.use("/api/package", packageRouter);
 app.use("/api/transaction", transactionRouter);
 app.use("/api/cargo", cargoRouter);
+app.use("/api/financial", financialRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
