@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Page, Grid, Card } from "tabler-react";
 
 import Wrapper from "~/components/Wrapper";
-// import DataTableDeliverys from "./DataTableDetails";
+import DataTableDeliverys from "./DataTableDeliverys";
 
 import api from "~/services/api";
 import { getFormatedDate, getMonthName } from "~/services/functions";
@@ -37,33 +37,28 @@ const DeliverysPage = (props) => {
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
-        <Page.Card title="Detalhes transactionse">
+        <Page.Card title={getMonthName(props.match.params.month)}>
           <Grid.Row>
             <Grid.Col>
               <div className="d-flex" style={{ float: "left" }}>
                 {transactions !== null ? (
                   <>
-                    <Card.Body>
-                      Mês:{getMonthName(props.match.params.month)}
-                    </Card.Body>
+                    <Card.Body></Card.Body>
                   </>
                 ) : (
-                  "Carregando informações..."
+                  ""
                 )}
               </div>
             </Grid.Col>
           </Grid.Row>
 
-          {/* <div className="divList">
+          <div className="divList">
             {transactions !== null ? (
-              <DataTableDeliverys
-                deliverys={transactions.deliverys}
-                idtransactions={props.match.params.id}
-              />
+              <DataTableDeliverys transactions={transactions} />
             ) : (
               "Carregando informações..."
             )}
-          </div> */}
+          </div>
         </Page.Card>
       </Page.Content>
     </Wrapper>

@@ -134,7 +134,11 @@ function App() {
           path="/financeiro/:id"
           component={FinancialDetailPage}
         />
-        <PrivateRoute exact path="/financeiro/:id/:month" component={DeliverysPage} />
+        <PrivateRoute
+          exact
+          path="/financeiro/:id/:month"
+          component={DeliverysPage}
+        />
 
         <Route component={Error404} />
       </Switch>
