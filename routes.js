@@ -78,6 +78,7 @@ financialRouter.get(
   "/list-by-client-and-month/:id/:month",
   financial.listTransactionsByClientAndMonth
 );
+financialRouter.put("/make-payment", financial.makePayment);
 
 module.exports = {
   rootRouter,

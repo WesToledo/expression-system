@@ -7,19 +7,17 @@ import React, {
 } from "react";
 
 import { withStyles } from "@material-ui/core/styles";
+import { Button } from "tabler-react";
 
-import {
-  Button,
-  Typography,
-  DialogActions,
-  Dialog,
-  Grid,
-} from "@material-ui/core";
+import { Typography, DialogActions, Dialog, Grid } from "@material-ui/core";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+
+import api from "~/services/api";
+import { dangerNotification, successNotification } from "~/services/notification";
 
 import DataTable from "./PayModalTable";
 
@@ -79,9 +77,18 @@ const PayModal = (props, ref) => {
     };
   });
 
-  useEffect(() => {
-    console.log(rowsData);
-  }, [rowsData]);
+  async function handleConfirmPayment() {
+    try {
+      await api.put("/financial/make-payment", {
+        transactions: rowsData.map((row) => row._id),
+      });
+      successNotification("Sucesso", "Sucesso ao efetuar pagamento");
+      handleClose();
+      window.location.reload(false);
+    } catch (err) {
+      dangerNotification("Erro", "Erro ao efetuar pagamento");
+    }
+  }
 
   return (
     <Dialog
@@ -91,7 +98,7 @@ const PayModal = (props, ref) => {
       open={open}
     >
       <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-        Entregas
+        Entregas realizadas
       </DialogTitle>
       <DialogContent dividers>
         <DataTable rowsData={rowsData} />
@@ -103,21 +110,32 @@ const PayModal = (props, ref) => {
           alignItems="flex-end"
           spacing={4}
         >
+          <Grid item></Grid>
           <Grid item>
             <Typography variant="h6">
-              Total:{" "}
+              Total:
               {rowsData.length !== 0
                 ? rowsData
-                    .map((row) => row.total)
+                    .map((row) =>
+                      Number(row.total.substring(3).replace(",", "."))
+                    )
                     .reduce((total, num) => total + num)
+                    .toFixed(2)
+                    .replace(".", ",")
                 : 0}
             </Typography>
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus color="primary">
-          Confimar Pagamento
+        <Button
+          type="submit"
+          color="success"
+          className="ml-auto margin-btn"
+          icon="dollar-sign"
+          onClick={handleConfirmPayment}
+        >
+          Confirmar Pagamento
         </Button>
       </DialogActions>
     </Dialog>

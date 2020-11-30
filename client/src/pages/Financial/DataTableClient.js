@@ -50,7 +50,7 @@ const DataTableClients = ({ clients, getClients }) => {
     },
     {
       name: "actions",
-      label: "Ações",
+      label: "Mais informações",
       options: {
         display: true,
         filter: false,

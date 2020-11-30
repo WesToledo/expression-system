@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useStateLink } from "@hookstate/core";
-import { Button } from "tabler-react";
+import { Badge } from "tabler-react";
 
 import IconButton from "@material-ui/core/IconButton";
 import { KeyboardArrowRight } from "@material-ui/icons";
-
-import { Modal } from "react-bootstrap";
-
-import api from "services/api";
-
-import {
-  dangerNotification,
-  successNotification,
-} from "~/services/notification";
 
 import { getMonthName } from "~/services/functions";
 
@@ -45,7 +35,7 @@ const DataTableDeliverys = ({ deliverys, idClient }) => {
     },
     {
       name: "actions",
-      label: "Ações",
+      label: "Mais informações",
       options: {
         display: true,
         filter: false,
@@ -66,6 +56,7 @@ const DataTableDeliverys = ({ deliverys, idClient }) => {
   function refreshDataTable() {
     var rows = [];
     deliverys.map((delivery) => {
+      console.log(delivery);
       rows.push({
         total: delivery.total.toFixed(2).replace(".", ","),
         month: getMonthName(delivery._id),

@@ -2,6 +2,7 @@ const TransactionSchema = require("../models/transactions");
 const CargoSchema = require("../models/cargo");
 const ClientSchema = require("../models/client");
 const mongoose = require("../../database");
+var ObjectId = require("mongodb").ObjectID;
 
 async function listTransactionsByClient(req, res) {
   try {
@@ -35,7 +36,9 @@ async function listTransactionsByClientAndMonth(req, res) {
     const transactions = await TransactionSchema.find({
       client: req.params.id,
       month: req.params.month,
-    }).populate("receiver", "name").populate("client", "name");;
+    })
+      .populate("receiver", "name")
+      .populate("client", "name");
 
     return res.send({ transactions });
   } catch (err) {
@@ -44,4 +47,24 @@ async function listTransactionsByClientAndMonth(req, res) {
   }
 }
 
-module.exports = { listTransactionsByClient, listTransactionsByClientAndMonth };
+async function makePayment(req, res) {
+  try {
+    await req.body.transactions.forEach(async (transaction) => {
+      await TransactionSchema.update(
+        { _id: ObjectId(transaction) },
+        { $set: { paid: true, payday: new Date() } }
+      );
+    });
+
+    return res.send();
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({ error: "Erro realizar pagamento" });
+  }
+}
+
+module.exports = {
+  listTransactionsByClient,
+  listTransactionsByClientAndMonth,
+  makePayment,
+};
