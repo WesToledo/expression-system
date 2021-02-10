@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Badge, Text } from "tabler-react";
 
-import DataTable from "./components/DataTable";
+import DataTable from "./DataTable";
 
 import { getFormatedDate } from "~/services/functions";
 
@@ -73,7 +73,7 @@ const DataTableDeliverys = ({ transactions }) => {
 
   const options = {
     selectableRowsOnClick: true,
-    selectableRows: "multiple",
+    selectableRows: "none",
   };
 
   useEffect(() => {

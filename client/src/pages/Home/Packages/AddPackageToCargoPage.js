@@ -19,6 +19,7 @@ function AddPackagePage(props) {
     receiver: undefined, // obj
     date: undefined,
     month: undefined,
+    year: undefined,
     paid: false,
     payday: undefined,
     obs: "",
@@ -33,8 +34,6 @@ function AddPackagePage(props) {
       client: client.value,
       receiver: receiver.value,
       volumes: volumes.value,
-      date: getDate(),
-      month: getMonth(),
       total: volumes.get().length
         ? volumes.get().reduce((accumulator, current) => {
             return { total: accumulator.total + current.total };
@@ -72,7 +71,6 @@ function AddPackagePage(props) {
           title={"Adicionar Volume"}
           confirmButtonText={"Salvar"}
         />
-        
       </Page.Content>
     </Wrapper>
   );

@@ -1,9 +1,22 @@
 const TransactionSchema = require("../models/transactions");
 const CargoSchema = require("../models/cargo");
 
+function getDate() {
+  return new Date().toISOString();
+}
+
+function getMonthAndYear() {
+  let now = new Date();
+  return { month: now.getMonth() + 1, year: now.getFullYear() };
+}
+
 async function create(req, res) {
   try {
-    const transaction = await TransactionSchema.create(req.body);
+    const transaction = await TransactionSchema.create({
+      ...req.body,
+      ...getMonthAndYear(),
+      date: getDate(),
+    });
 
     const cargo = await CargoSchema.findOne({ open: true }).populate(
       "packages"

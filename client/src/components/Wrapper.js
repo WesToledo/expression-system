@@ -33,9 +33,14 @@ const navBarItems = [
     to: "/entregas",
   },
   {
-    value: "Financeiro",
+    value: "Financeiro Clientes",
     icon: "dollar-sign",
     to: "/financeiro",
+  },
+  {
+    value: "Financeiro Empresa",
+    icon: "dollar-sign",
+    to: "/financeiro-empresa",
   },
 ];
 

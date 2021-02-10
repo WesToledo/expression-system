@@ -5,17 +5,16 @@ import { Button } from "tabler-react";
 import IconButton from "@material-ui/core/IconButton";
 import { KeyboardArrowRight } from "@material-ui/icons";
 
-import { Modal } from "react-bootstrap";
-
-import api from "services/api";
 import {
   dangerNotification,
   successNotification,
 } from "~/services/notification";
 
+import { getMonthName } from "~/services/functions";
+
 import DataTable from "~/components/DataTable";
 
-const DataTableClients = ({ clients, getClients }) => {
+const DataTableMonths = ({ months, getMonths }) => {
   const [data, setData] = useState([]);
   const [rowSelected, setRowSelected] = useState();
   const columns = [
@@ -28,29 +27,36 @@ const DataTableClients = ({ clients, getClients }) => {
       },
     },
     {
-      name: "name",
-      label: "Nome",
+      name: "month",
+      label: "Mês",
       options: {
         display: true,
       },
     },
     {
-      name: "reference_name",
-      label: "Nome de referência",
+      name: "year",
+      label: "Ano",
       options: {
         display: true,
       },
     },
     {
-      name: "address",
-      label: "Endereço",
+      name: "count",
+      label: "Número de entregas",
+      options: {
+        display: true,
+      },
+    },
+    {
+      name: "total",
+      label: "Total",
       options: {
         display: true,
       },
     },
     {
       name: "actions",
-      label: "Mais informações",
+      label: "Mais detalhes",
       options: {
         display: true,
         filter: false,
@@ -61,7 +67,7 @@ const DataTableClients = ({ clients, getClients }) => {
 
   const currentRow = useStateLink({
     id: null,
-    hrefEdit: "/clientes/editar/",
+    hrefEdit: "/months/editar/",
   });
 
   const options = {
@@ -87,22 +93,22 @@ const DataTableClients = ({ clients, getClients }) => {
 
   useEffect(() => {
     refreshDataTable();
-  }, [clients]);
+  }, [months]);
 
   function refreshDataTable() {
-    function formatAddress({ via, number, neighborhood, state, city }) {
-      return (
-        via + ", " + number + ", " + neighborhood + ", " + state + ", " + city
-      );
-    }
-
     var rows = [];
-    clients.map((client) => {
+    months.map((month) => {
       rows.push({
-        ...client,
-        address: formatAddress(client.address),
+        month: getMonthName(month._id.month),
+        year: month._id.year,
+        count: month.count + " pacote(s)",
+        total: "R$ " + month.total.toFixed(2).replace(".", ","),
         actions: (
-          <IconButton href={"/financeiro/" + client._id}>
+          <IconButton
+            href={
+              "/financeiro-empresa/" + month._id.year + "/" + month._id.month
+            }
+          >
             <KeyboardArrowRight fontSize="small" />
           </IconButton>
         ),
@@ -115,7 +121,6 @@ const DataTableClients = ({ clients, getClients }) => {
     <>
       <DataTable
         title={""}
-        tooltipEdit={"Editar Cliente"}
         options={options}
         data={data}
         currentRow={currentRow}
@@ -127,4 +132,4 @@ const DataTableClients = ({ clients, getClients }) => {
   );
 };
 
-export default DataTableClients;
+export default DataTableMonths;

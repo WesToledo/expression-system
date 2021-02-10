@@ -43,6 +43,9 @@ import DeliverysPage from "~/pages/Financial/Details/Deliverys";
 
 import DeliveryManPage from "~/pages/DeliverMan";
 
+import BusinessPage from "~/pages/Business";
+import MonthDetailPage from "~/pages/Business/Details";
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
@@ -138,6 +141,18 @@ function App() {
           exact
           path="/financeiro/:id/:month"
           component={DeliverysPage}
+        />
+
+        <PrivateRoute
+          exact
+          path="/financeiro-empresa"
+          component={BusinessPage}
+        />
+
+        <PrivateRoute
+          exact
+          path="/financeiro-empresa/:year/:month"
+          component={MonthDetailPage}
         />
 
         <Route component={Error404} />

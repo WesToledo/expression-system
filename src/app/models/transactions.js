@@ -39,6 +39,7 @@ const TransactionSchema = new mongoose.Schema({
     type: "String",
     required: true,
   },
+  year: { type: "String", required: true },
   total: {
     type: Number,
     required: true,
