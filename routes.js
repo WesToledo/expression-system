@@ -60,6 +60,7 @@ transactionRouter.get("/", transaction.list);
 transactionRouter.get("/:id", transaction.index);
 transactionRouter.delete("/remove/:id", transaction.remove);
 transactionRouter.put("/delivered/:id", transaction.delivered);
+transactionRouter.put("/sented/:id", transaction.sented);
 
 // Cargo
 const cargoRouter = express.Router();

@@ -73,7 +73,7 @@ async function delivered(req, res) {
   try {
     const delivered = await TransactionSchema.findByIdAndUpdate(
       req.params.id,
-      { delivered: true },
+      { delivered: req.body.checked  },
       {
         new: true,
       }
@@ -82,8 +82,25 @@ async function delivered(req, res) {
       .populate("receiver", "name");
     return res.send({ package: delivered });
   } catch (err) {
-    return res.status(400).send({ error: "Erro ao editar cliente" });
+    return res.status(400).send({ error: "Erro ao editar carregamento" });
   }
 }
 
-module.exports = { create, index, list, remove, delivered };
+async function sented(req, res) {
+  try {
+    const sented = await TransactionSchema.findByIdAndUpdate(
+      req.params.id,
+      { sent: req.body.checked },
+      {
+        new: true,
+      }
+    )
+      .populate("client", "name")
+      .populate("receiver", "name");
+    return res.send({ package: sented });
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao editar carregamento" });
+  }
+}
+
+module.exports = { create, index, list, remove, delivered, sented };

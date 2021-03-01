@@ -22,6 +22,8 @@ function Home(props) {
 
   const [packages, setPackages] = useState([]);
 
+  const [isAllSented, setIsAllSented] = useState(false);
+
   async function handleCreateCargo() {
     try {
       await api.post("/cargo/create", {
@@ -83,6 +85,7 @@ function Home(props) {
             amount: pack.volumes.length,
             observations: pack.obs,
             total: pack.total,
+            sent: pack.sent,
           };
         })
       );
@@ -105,6 +108,7 @@ function Home(props) {
           }).total
         : 0
     );
+    setIsAllSented(packages.every((pack) => pack.sent));
   }, [packages]);
 
   return (
@@ -115,7 +119,11 @@ function Home(props) {
             {cargo.open ? (
               <Grid.Row>
                 <Grid.Col>
-                  <DataTablePackages packages={packages} getCargo={getCargo} />
+                  <DataTablePackages
+                    packages={packages}
+                    getCargo={getCargo}
+                    setPackages={setPackages}
+                  />
                 </Grid.Col>
               </Grid.Row>
             ) : (
@@ -157,6 +165,7 @@ function Home(props) {
                   <Button
                     type="submit"
                     color="danger"
+                    disabled={!isAllSented}
                     className="ml-auto margin-btn"
                     onClick={handleFinish}
                   >

@@ -86,7 +86,10 @@ const DataTablePackages = ({ packages, setPackages }) => {
 
     try {
       const response = await api.put(
-        "/transaction/delivered/" + e.target.value
+        "/transaction/delivered/" + e.target.value,
+        {
+          checked: e.target.checked,
+        }
       );
 
       const diff = packages.filter((item) => item._id !== id);

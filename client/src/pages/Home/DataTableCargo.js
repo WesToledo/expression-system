@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useStateLink } from "@hookstate/core";
-import { Button } from "tabler-react";
+import { Button, Grid, Form } from "tabler-react";
 
 import { Modal } from "react-bootstrap";
 
@@ -12,7 +12,7 @@ import {
 
 import DataTable from "~/components/DataTable";
 
-const DataTableCargo = ({ packages, getCargo }) => {
+const DataTableCargo = ({ packages, getCargo, setPackages }) => {
   const [data, setData] = useState([]);
   const [rowSelected, setRowSelected] = useState();
   const columns = [
@@ -59,6 +59,15 @@ const DataTableCargo = ({ packages, getCargo }) => {
         display: true,
       },
     },
+    {
+      name: "actions",
+      label: "Carregado",
+      options: {
+        display: true,
+        filter: false,
+        viewColumns: false,
+      },
+    },
   ];
 
   const currentRow = useStateLink({
@@ -95,12 +104,56 @@ const DataTableCargo = ({ packages, getCargo }) => {
     id: undefined,
   });
 
+  async function handleSentCheck(e) {
+    e.preventDefault();
+    const id = e.target.value;
+
+    try {
+      const response = await api.put("/transaction/sented/" + e.target.value, {
+        checked: e.target.checked,
+      });
+
+      const diff = packages.filter((item) => item.id != id);
+      const pack = response.data.package;
+
+      diff.push({
+        id: pack._id,
+        client: pack.client.name,
+        receiver: pack.receiver.name,
+        amount: pack.volumes.length,
+        observations: pack.obs,
+        total: pack.total,
+        sent: pack.sent,
+      });
+
+      setPackages(diff);
+
+      successNotification("Sucesso", "Sucesso ao carregar entrega");
+    } catch (err) {
+      console.log(err);
+      if (err.response.data.error)
+        dangerNotification("Erro", err.response.data.error);
+      else dangerNotification("Erro", "Erro ao carregar entrega");
+    }
+  }
+
   function refreshDataTable() {
     var rows = [];
     packages.map((pack) => {
+      console.log(pack);
       rows.push({
         ...pack,
         total: "R$ " + pack.total.toFixed(2).replace(".", ","),
+        actions: (
+          <Grid.Row className="justify-content-center">
+            <Form.Checkbox
+              label=" "
+              value={pack.id}
+              checked={pack.sent}
+              onChange={handleSentCheck}
+            />
+          </Grid.Row>
+        ),
       });
     });
     setData(rows);
@@ -109,23 +162,21 @@ const DataTableCargo = ({ packages, getCargo }) => {
   const handleDelete = async () => {
     try {
       await api.delete("/transaction/remove/" + modalDelete.id);
-      successNotification("Sucesso", "Sucesso ao deletar volume do carregamento");
+      successNotification(
+        "Sucesso",
+        "Sucesso ao deletar volume do carregamento"
+      );
 
-      getCargo()
+      getCargo();
       setModalDelete({ id: undefined, show: false });
       setRowSelected([]);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
       else dangerNotification("Erro", "Erro ao deletar volume do carregamento");
     }
   };
-
-  useEffect(() => {
-    console.log(currentRow.get());
-    console.log(packages);
-  }, [currentRow]);
 
   return (
     <>
@@ -153,7 +204,6 @@ const DataTableCargo = ({ packages, getCargo }) => {
             color="danger"
             icon="x"
             onClick={() => {
-              console.log(modalDelete);
               setModalDelete({ id: undefined, show: false });
             }}
           >
