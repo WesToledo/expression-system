@@ -37,7 +37,13 @@ const MonthDetailPage = (props) => {
   return (
     <Wrapper>
       <Page.Content className="card-header-form">
-        <Page.Card title={getMonthName(props.match.params.month) + ", " + props.match.params.year}>
+        <Page.Card
+          title={
+            getMonthName(props.match.params.month) +
+            ", " +
+            props.match.params.year
+          }
+        >
           <div className="divList">
             {transactions !== null ? (
               <DataTableDeliverys transactions={transactions} />
@@ -45,30 +51,47 @@ const MonthDetailPage = (props) => {
               "Carregando informações..."
             )}
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              flexDirection: "column",
-              margin: 5
-            }}
-          >
-            <div>
-              {transactions !== null ? (
-                <Grid.Col>
-                  <h2>
-                    Total:
-                    {String(
-                      "R$ " +
-                        transactions.reduce((a, b) => a + (b["total"] || 0), 0)
-                    )}
-                  </h2>
-                </Grid.Col>
-              ) : (
-                ""
-              )}
+          {transactions !== null ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "flex-end",
+                flexDirection: "row",
+                margin: 5,
+              }}
+            >
+                <h2>
+                  Total:
+                  {String(
+                    " R$ " +
+                      transactions.reduce((a, b) => a + (b["total"] || 0), 0)
+                  )}
+                </h2>
+
+              {/* <h4 style={{ marginRight: 10, color: "#5eba00" }}>
+                Total pago:
+                {String(
+                  " R$ " +
+                    transactions
+                      .filter((a) => a.paid)
+                      .reduce((a, b) => a + (b["total"] || 0), 0)
+                )}
+              </h4>
+
+              <h4 style={{ color: "#cd201f" }}>
+                Total faltante:
+                {String(
+                  " R$ " +
+                    transactions
+                      .filter((a) => !a.paid)
+                      .reduce((a, b) => a + (b["total"] || 0), 0)
+                )}
+              </h4> */}
             </div>
-          </div>
+          ) : (
+            ""
+          )}
         </Page.Card>
       </Page.Content>
     </Wrapper>

@@ -1,4 +1,5 @@
 const ClientSchema = require("../models/client");
+const TransactionSchema = require("../models/transactions");
 
 async function create(req, res) {
   try {
@@ -6,7 +7,7 @@ async function create(req, res) {
 
     return res.send({ client });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return res.status(400).send({ error: "Erro ao cadastrar cliente" });
   }
 }
@@ -46,6 +47,13 @@ async function update(req, res) {
 
 async function remove(req, res) {
   try {
+    if (await TransactionSchema.findOne({ client: req.params.id })) {
+      return res.status(400).send({
+        error:
+          "Cliente não pode ser deletado por ter pendências dentro do sistema",
+        err,
+      });
+    }
     await ClientSchema.findByIdAndRemove(req.params.id);
     return res.status(200).send();
   } catch (err) {

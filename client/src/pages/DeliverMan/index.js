@@ -32,6 +32,7 @@ const DeliverManPage = (props) => {
       await api.put("/cargo/finish-delivery/" + cargo._id);
       successNotification("Sucesso", "Sucesso ao fechar entrega");
       setCargo(null);
+      window.location.reload();
       
     } catch (err) {
       if (err.response.data.error)

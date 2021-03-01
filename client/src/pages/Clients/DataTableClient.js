@@ -121,6 +121,7 @@ const DataTableClients = ({ clients, getClients }) => {
       setModalDelete({ id: undefined, show: false });
       setRowSelected([]);
     } catch (err) {
+      console.log(err.response.data);
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
       else dangerNotification("Erro", "Erro ao deletar cliente");

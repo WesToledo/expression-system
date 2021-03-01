@@ -1,4 +1,5 @@
 const ReceiverSchema = require("../models/receiver");
+const TransactionSchema = require("../models/transactions");
 
 async function create(req, res) {
   try {
@@ -46,6 +47,13 @@ async function update(req, res) {
 
 async function remove(req, res) {
   try {
+    if (await TransactionSchema.findOne({ receiver: req.params.id })) {
+      return res.status(400).send({
+        error:
+          "Destinatário não pode ser deletado por ter pendências dentro do sistema",
+        err,
+      });
+    }
     await ReceiverSchema.findByIdAndRemove(req.params.id);
     return res.status(200).send();
   } catch (err) {

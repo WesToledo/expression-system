@@ -100,7 +100,7 @@ const DataTableVolumes = ({ volumes, availableVolumes }) => {
     volumes.get().map((pack) => {
       rows.push({
         ...pack,
-        value: "R$ " + pack.total.toFixed(2).replace(".", ","),
+        value: "R$ " + pack.value.toFixed(2).replace(".", ","),
         total: "R$ " + pack.total.toFixed(2).replace(".", ","),
       });
     });
