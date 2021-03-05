@@ -15,6 +15,7 @@ function CreatepackagePage(props) {
   const [form, setForm] = useState({
     name: undefined,
     price: "0",
+    paid_now: true
   });
 
   const handleSubmit = async (e) => {

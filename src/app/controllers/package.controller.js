@@ -2,10 +2,11 @@ const PackageSchema = require("../models/package");
 
 async function create(req, res) {
   try {
-    const { name, price } = req.body;
+    const { name, price, paid_now } = req.body;
 
     const package = await PackageSchema.create({
       name,
+      paid_now,
       price: price.replace(",", "."),
     });
 
