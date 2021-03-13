@@ -73,7 +73,7 @@ async function delivered(req, res) {
   try {
     const delivered = await TransactionSchema.findByIdAndUpdate(
       req.params.id,
-      { delivered: req.body.checked  },
+      { delivered: req.body.checked },
       {
         new: true,
       }

@@ -57,9 +57,9 @@ function AddPackagePage(props) {
     }
   }
 
-  useEffect(() => {
-    console.log(form.get());
-  }, [form]);
+  // useEffect(() => {
+  //   console.log(form.get());
+  // }, [form]);
 
   return (
     <Wrapper>

@@ -103,9 +103,14 @@ function Home(props) {
 
     setTotal(
       packages.length
-        ? packages.reduce((accumulator, current) => {
-            return { total: accumulator.total + current.total };
-          }).total
+        ? packages.reduce(
+            (accumulator, current) => {
+              if (current.paid_now)
+                return { total: accumulator.total + current.total };
+              else return { total: accumulator.total };
+            },
+            { total: 0 }
+          ).total
         : 0
     );
     setIsAllSented(packages.every((pack) => pack.sent));

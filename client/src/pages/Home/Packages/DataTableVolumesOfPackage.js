@@ -32,7 +32,7 @@ const DataTableVolumes = ({ volumes, availableVolumes }) => {
     },
     {
       name: "name",
-      label: "Tamanho",
+      label: "Descrição",
       options: {
         display: true,
       },

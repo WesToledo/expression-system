@@ -69,10 +69,10 @@ const FormPackage = ({
       >
         <Grid.Row>
           <Grid.Col md={12} lg={4} sm={12}>
-            <Form.Group isRequired label="Nome">
+            <Form.Group isRequired label="Descrição">
               <Form.Input
                 name="name"
-                placeholder="Digite o nome..."
+                placeholder="Digite a descrição..."
                 value={form.name}
                 onChange={handleOnChangeInput}
               />
