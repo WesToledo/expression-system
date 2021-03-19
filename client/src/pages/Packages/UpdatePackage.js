@@ -15,6 +15,7 @@ function EditPackagePage(props) {
   const [form, setForm] = useState({
     name: undefined,
     price: "0",
+    paid_now: true,
   });
 
   async function handleSubmit(e) {

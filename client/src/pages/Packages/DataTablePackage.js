@@ -32,6 +32,14 @@ const DataTablePackages = ({ packages, getPackages }) => {
       },
     },
     {
+      name: "paid_now",
+      label: "Tipo Pagamento",
+      options: {
+        display: true,
+      },
+    },
+
+    {
       name: "price",
       label: "Preço",
       options: {
@@ -80,6 +88,7 @@ const DataTablePackages = ({ packages, getPackages }) => {
       rows.push({
         ...pack,
         price: "R$ " + pack.price.toFixed(2).replace(".", ","),
+        paid_now: pack.paid_now ? "Pagamento Imediato" : "Pagamento Posterior",
       });
     });
     setData(rows);

@@ -29,6 +29,11 @@ const TransactionSchema = new mongoose.Schema({
         required: true,
         default: 0,
       },
+      paid_now: {
+        type: Boolean,
+        required: true,
+        default: true,
+      },
     },
   ],
   date: {
@@ -50,6 +55,7 @@ const TransactionSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
+
   payday: {
     type: Date,
   },

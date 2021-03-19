@@ -83,9 +83,12 @@ function Home(props) {
             client: pack.client.name,
             receiver: pack.receiver.name,
             amount: pack.volumes.length,
-            observations: pack.obs,
+            observations: !pack.volumes[0].paid_now
+              ? pack.volumes[0].name + " " + pack.obs
+              : pack.obs,
             total: pack.total,
-            sent: pack.sent,
+            sent: pack.sent,  
+            paid_now: pack.volumes[0].paid_now,
           };
         })
       );
@@ -93,19 +96,18 @@ function Home(props) {
   }, [cargo]);
 
   useEffect(() => {
-    console.log(
-      packages.length
-        ? packages.reduce((accumulator, current) => {
-            return { total: accumulator.total + current.total };
-          }).total
-        : 0
-    );
+    console.log(packages);
 
     setTotal(
       packages.length
-        ? packages.reduce((accumulator, current) => {
-            return { total: accumulator.total + current.total };
-          }).total
+        ? packages.reduce(
+            (accumulator, current) => {
+              if (current.paid_now)
+                return { total: accumulator.total + current.total };
+              else return { total: accumulator.total };
+            },
+            { total: 0 }
+          ).total
         : 0
     );
     setIsAllSented(packages.every((pack) => pack.sent));

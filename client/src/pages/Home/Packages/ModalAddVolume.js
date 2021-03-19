@@ -3,9 +3,9 @@ import React, {
   useState,
   useCallback,
   forwardRef,
-  useEffect,
+  useRef,
 } from "react";
-import { useStateLink, none } from "@hookstate/core";
+import { useStateLink } from "@hookstate/core";
 import { Button, Grid, Form } from "tabler-react";
 import Select from "react-select";
 import { Modal } from "react-bootstrap";
@@ -20,13 +20,11 @@ function ModalAddVolume(
   const [visible, setVisible] = useState(false);
 
   const [form, setForm] = useState({
-    id: undefined,
-    name: undefined,
-    value: undefined,
-    amount: 1,
-    total: undefined,
     selected: undefined,
   });
+
+  const amountRef = useRef(null);
+  const [selectedPrice, setSelectedPrice] = useState(0);
 
   const volumesOptions = availableVolumes.get().map((volume) => {
     return {
@@ -34,6 +32,7 @@ function ModalAddVolume(
       value: volume._id,
       label: volume.name,
       price: volume.price,
+      paid_now: volume.paid_now,
     };
   });
 
@@ -50,29 +49,45 @@ function ModalAddVolume(
   }, []);
 
   function handleSubmit() {
-    const { id, name, value, amount } = form;
+    const { id, label: name, paid_now } = form.selected;
+    const amount = Number(amountRef.current.value);
+    const price = Number(selectedPrice);
 
-    const volumeIndex = volumes.get().findIndex((volume) => volume.id === id);
+    //search in volumes if already exists some volume with the same id
+    const volumesIndexes = [];
+    volumes.get().forEach((volume, index) => {
+      if (volume.id === id) volumesIndexes.push(index);
+    });
 
-    if (volumeIndex !== -1) {
-      console.log("index:", volumes.nested[volumeIndex].get());
+    if (volumesIndexes.length > 0) {
+      // console.log("index:", volumes.get()[volumeIndex]);
       // state.merge((p) => ({ 0: p[0] + 1 }));
 
-      volumes.merge((previous) => ({
-        [volumeIndex]: {
-          id,
-          name,
-          value,
-          amount: previous[volumeIndex].amount + amount,
-          total: previous[volumeIndex].total + value * amount,
-        },
-      }));
-    } else {
-      volumes.set((v) => [
-        ...v,
-        { id, name, value, amount, total: value * amount },
-      ]);
+      for (const index of volumesIndexes) {
+        if (
+          volumes.get()[index].value == price &&
+          volumes.get()[index].paid_now == true
+        ) {
+          volumes.merge((previous) => ({
+            [index]: {
+                id,
+                name,
+              value: price,
+              amount: previous[index].amount + amount,
+              total: previous[index].total + price * amount,
+            },
+          }));
+          closeModal();
+          return;
+        }
+      }
     }
+
+    volumes.set((v) => [
+      ...v,
+      { id, name, value: price, amount, total: price * amount, paid_now },
+    ]);
+
     closeModal();
   }
 
@@ -80,24 +95,15 @@ function ModalAddVolume(
     function handleOnChangeSelect(selected) {
       setForm({
         ...form,
-        id: selected.id,
-        name: selected.label,
-        value: selected.price,
         selected: selected,
       });
-    }
-
-    function handleOnChangeAmount(e) {
-      setForm({
-        ...form,
-        amount: Number(e.target.value),
-      });
+      setSelectedPrice(selected.price);
     }
 
     return (
       <Grid.Row>
-        <Grid.Col md={12} lg={6} sm={12}>
-          <Form.Group isRequired label="Nome volume">
+        <Grid.Col md={12} lg={8} sm={12}>
+          <Form.Group isRequired label="Descrição volume">
             <Select
               options={volumesOptions}
               value={form.selected}
@@ -106,14 +112,32 @@ function ModalAddVolume(
             />
           </Form.Group>
         </Grid.Col>
-        <Grid.Col md={12} lg={6} sm={12}>
+        <Grid.Col md={12} lg={4} sm={12}>
           <Form.Group isRequired label="Quantidade">
-            <Form.Input
-              name="price"
+            <input
+              className="form-control"
+              name="amount"
               type="number"
               min="1"
-              value={form.amount}
-              onChange={handleOnChangeAmount}
+              defaultValue="1"
+              ref={amountRef}
+            />
+          </Form.Group>
+        </Grid.Col>
+
+        <Grid.Col md={12} lg={8} sm={12}>
+          <Form.Group isRequired label="Preço">
+            <input
+              autoFocus
+              className="form-control"
+              name="price"
+              type="number"
+              step="0.1"
+              min="0"
+              value={selectedPrice}
+              onChange={(e) => {
+                setSelectedPrice(e.target.value);
+              }}
             />
           </Form.Group>
         </Grid.Col>
