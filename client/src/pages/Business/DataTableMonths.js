@@ -49,7 +49,21 @@ const DataTableMonths = ({ months, getMonths }) => {
     },
     {
       name: "total",
-      label: "Total",
+      label: "Valor Total",
+      options: {
+        display: true,
+      },
+    },
+    {
+      name: "not_paid_value",
+      label: "Valor em haver",
+      options: {
+        display: true,
+      },
+    },
+    {
+      name: "paid_value",
+      label: "Valor Recebido",
       options: {
         display: true,
       },
@@ -103,6 +117,9 @@ const DataTableMonths = ({ months, getMonths }) => {
         year: month._id.year,
         count: month.count + " pacote(s)",
         total: "R$ " + month.total.toFixed(2).replace(".", ","),
+        paid_value: "R$ " + month.paid_value.toFixed(2).replace(".", ","),
+        not_paid_value:
+          "R$ " + month.not_paid_value.toFixed(2).replace(".", ","),
         actions: (
           <IconButton
             href={
