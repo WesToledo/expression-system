@@ -87,7 +87,7 @@ function Home(props) {
               ? pack.volumes[0].name + " " + pack.obs
               : pack.obs,
             total: pack.total,
-            sent: pack.sent,  
+            sent: pack.sent,
             paid_now: pack.volumes[0].paid_now,
           };
         })
@@ -102,9 +102,7 @@ function Home(props) {
       packages.length
         ? packages.reduce(
             (accumulator, current) => {
-              if (current.paid_now)
-                return { total: accumulator.total + current.total };
-              else return { total: accumulator.total };
+              return { total: accumulator.total + current.total };
             },
             { total: 0 }
           ).total
@@ -157,7 +155,22 @@ function Home(props) {
               <div>
                 <Grid.Col>
                   <h2>
-                    Total: {String("R$" + total.toFixed(2)).replace(".", ",")}
+                    Total:
+                    {"R$" + packages.length
+                      ? packages
+                          .reduce(
+                            (accumulator, current) => {
+                              if (current.paid_now)
+                                return {
+                                  total: accumulator.total + current.total,
+                                };
+                              else return { total: accumulator.total };
+                            },
+                            { total: 0 }
+                          )
+                          .total.toFixed(2)
+                          .replace(".", ",")
+                      : 0}
                   </h2>
                 </Grid.Col>
               </div>

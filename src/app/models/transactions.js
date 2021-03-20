@@ -55,7 +55,6 @@ const TransactionSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
-
   payday: {
     type: Date,
   },

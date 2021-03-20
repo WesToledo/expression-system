@@ -20,6 +20,16 @@ async function listTransactionsByClient(req, res) {
           total: {
             $sum: "$total",
           },
+          paid_value: {
+            $sum: {
+              $cond: [{ $eq: ["$paid", true] }, "$total", 0],
+            },
+          },
+          not_paid_value: {
+            $sum: {
+              $cond: [{ $eq: ["$paid", false] }, "$total", 0],
+            },
+          },
         },
       },
     ]);

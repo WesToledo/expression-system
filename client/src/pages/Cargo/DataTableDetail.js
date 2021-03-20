@@ -1,18 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useStateLink } from "@hookstate/core";
-import { Button } from "tabler-react";
-
-import IconButton from "@material-ui/core/IconButton";
-import { KeyboardArrowRight } from "@material-ui/icons";
-
-import { Modal } from "react-bootstrap";
-
-import api from "services/api";
-
-import {
-  dangerNotification,
-  successNotification,
-} from "~/services/notification";
+import {Badge, Text } from "tabler-react";
 
 import { getFormatedDate } from "~/services/functions";
 
@@ -57,7 +44,6 @@ const DataTableDetail = ({ packages }) => {
         display: true,
       },
     },
-
     {
       name: "observations",
       label: "Observações",
@@ -68,6 +54,13 @@ const DataTableDetail = ({ packages }) => {
     {
       name: "total",
       label: "Total",
+      options: {
+        display: true,
+      },
+    },
+    {
+      name: "status",
+      label: "Situação",
       options: {
         display: true,
       },
@@ -97,6 +90,18 @@ const DataTableDetail = ({ packages }) => {
         volumes: pack.volumes
           .map((volume) => volume.amount + " " + volume.name)
           .join(", "),
+        status: pack.paid ? (
+          <>
+            <Badge color="success" className="mr-1">
+              Pago
+            </Badge>
+            <Text.Small>{getFormatedDate(pack.payday)}</Text.Small>
+          </>
+        ) : (
+          <Badge color="danger" className="mr-1">
+            Em Haver
+          </Badge>
+        ),
       });
     });
     setData(rows);

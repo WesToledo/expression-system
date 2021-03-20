@@ -40,7 +40,7 @@ function AddPackagePage(props) {
             return { total: accumulator.total + current.total };
           }).total
         : 0,
-      sent: !volumes.get()[0].paid_now ? true : false,
+      sent: volumes.get()[0].paid_now ? false : true,
       paid,
       payday,
       obs,
