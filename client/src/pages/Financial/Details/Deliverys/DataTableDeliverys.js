@@ -111,10 +111,6 @@ const DataTableDeliverys = ({ transactions }) => {
     setData(rows);
   }
 
-  useEffect(() => {
-    console.log(transactions);
-  }, [transactions]);
-
   return (
     <DataTable title={""} options={options} data={data} columns={columns} />
   );

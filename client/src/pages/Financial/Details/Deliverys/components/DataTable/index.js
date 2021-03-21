@@ -75,7 +75,7 @@ const DataTable = ({ options, data, columns, title }) => {
 
   return (
     <>
-      <PayModal ref={modalRef} />
+      <PayModal ref={modalRef}  />
 
       <MUIDataTable
         title={title}
