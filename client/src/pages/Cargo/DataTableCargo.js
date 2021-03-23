@@ -149,17 +149,6 @@ const DataTableCargo = ({ cargos, getCargos, history }) => {
   useEffect(() => {
     console.log(currentRow.get());
     console.log(cargos);
-
-    console.log(
-      cargos[0].packages
-        .filter((pack) => pack.paid)
-        .reduce(
-          (accumulator, current) => {
-            return { total: accumulator.total + current.total };
-          },
-          { total: 0 }
-        ).total
-    );
   }, [currentRow]);
 
   return (
