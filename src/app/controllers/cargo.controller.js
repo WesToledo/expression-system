@@ -5,9 +5,21 @@ async function create(req, res) {
   try {
     if (await CargoSchema.findOne({ open: true })) return;
 
-    const cargo = await CargoSchema.create(req.body);
+    let cargo = await CargoSchema.findOne({ date: req.body.date });
 
-    return res.send({ cargo });
+    if (cargo) {
+      await CargoSchema.findByIdAndUpdate(
+        cargo._id,
+        { open: true },
+        {
+          new: true,
+        }
+      );
+      return res.send({ cargo });
+    } else {
+      cargo = await CargoSchema.create(req.body);
+      return res.send({ cargo });
+    }
   } catch (err) {
     return res.status(400).send({ error: "Erro ao criar carregamento" });
   }

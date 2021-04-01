@@ -27,17 +27,17 @@ function Home(props) {
   async function handleCreateCargo() {
     try {
       await api.post("/cargo/create", {
-        date: date.toISOString(),
+        date: date.toDateString(),
         month: new Date(date).getMonth() + 1,
         open: true,
       });
 
-      successNotification("Sucesso", "Sucesso criar carregamento");
+      successNotification("Sucesso", "Sucesso abrir carregamento");
       getCargo();
     } catch (err) {
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao criar carregamento");
+      else dangerNotification("Erro", "Erro ao abrir carregamento");
     }
   }
 
@@ -61,6 +61,7 @@ function Home(props) {
   async function getCargo() {
     try {
       const response = await api.get("/cargo");
+      console.log(response);
       if (response.data.cargo) setCargo(response.data.cargo);
     } catch (err) {
       console.log(err);
@@ -82,7 +83,11 @@ function Home(props) {
             id: pack._id,
             client: pack.client.name,
             receiver: pack.receiver.name,
-            amount: pack.volumes.length,
+            amount: pack.volumes
+              .map((p) => {
+                return p.amount + " " + p.name;
+              })
+              .join(", "),
             observations: !pack.volumes[0].paid_now
               ? pack.volumes[0].name + " " + pack.obs
               : pack.obs,
@@ -147,7 +152,9 @@ function Home(props) {
                     <Form.Group isRequired label="Data">
                       <Form.Input
                         type="date"
-                        value={getFormatedDate(date.toISOString())}
+                        defaultValue={getFormatedDate(
+                          new Date().toDateString()
+                        )}
                         onChange={(e) => setDate(new Date(e.target.value))}
                       />
                     </Form.Group>
