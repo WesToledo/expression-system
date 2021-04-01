@@ -28,7 +28,21 @@ const DataTableDeliverys = ({ deliverys, idClient }) => {
     },
     {
       name: "total",
-      label: "Total",
+      label: "Valor Total",
+      options: {
+        display: true,
+      },
+    },
+    {
+      name: "not_paid_value",
+      label: "Valor em haver",
+      options: {
+        display: true,
+      },
+    },
+    {
+      name: "paid_value",
+      label: "Valor Recebido",
       options: {
         display: true,
       },
@@ -56,8 +70,10 @@ const DataTableDeliverys = ({ deliverys, idClient }) => {
   function refreshDataTable() {
     var rows = [];
     deliverys.map((delivery) => {
-      console.log(delivery);
       rows.push({
+        paid_value: "R$ " + delivery.paid_value.toFixed(2).replace(".", ","),
+        not_paid_value:
+          "R$ " + delivery.not_paid_value.toFixed(2).replace(".", ","),
         total: delivery.total.toFixed(2).replace(".", ","),
         month: getMonthName(delivery._id),
         actions: (

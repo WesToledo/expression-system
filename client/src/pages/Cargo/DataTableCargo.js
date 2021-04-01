@@ -52,6 +52,21 @@ const DataTableCargo = ({ cargos, getCargos, history }) => {
       },
     },
     {
+      name: "not_paid_value",
+      label: "Valor em haver",
+      options: {
+        display: true,
+      },
+    },
+    {
+      name: "paid_value",
+      label: "Valor Recebido",
+      options: {
+        display: true,
+      },
+    },
+
+    {
       name: "actions",
       label: "Ações",
       options: {
@@ -94,12 +109,33 @@ const DataTableCargo = ({ cargos, getCargos, history }) => {
 
   function refreshDataTable() {
     var rows = [];
+
     cargos.map((cargo) => {
       rows.push({
         ...cargo,
         date: getFormatedDate(cargo.date),
         total: "R$ " + cargo.total.toFixed(2).replace(".", ","),
         amount: cargo.packages.length,
+        paid_value:
+          "R$ " +
+          cargo.packages
+            .filter((pack) => pack.paid)
+            .reduce(
+              (accumulator, current) => {
+                return { total: accumulator.total + current.total };
+              },
+              { total: 0 }
+            ).total,
+        not_paid_value:
+          "R$ " +
+          cargo.packages
+            .filter((pack) => !pack.paid)
+            .reduce(
+              (accumulator, current) => {
+                return { total: accumulator.total + current.total };
+              },
+              { total: 0 }
+            ).total,
         actions: (
           <IconButton href={"/entregas/" + cargo._id}>
             <KeyboardArrowRight fontSize="small" />

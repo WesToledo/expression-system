@@ -6,6 +6,11 @@ const PackageSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  paid_now: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
   price: {
     type: Number,
     required: true,

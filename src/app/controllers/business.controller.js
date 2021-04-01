@@ -13,7 +13,27 @@ async function listTransactionsByMonth(req, res) {
           total: {
             $sum: "$total",
           },
-          count: { $sum: { $size: "$volumes" } },
+          paid_value: {
+            $sum: {
+              $cond: [{ $eq: ["$paid", true] }, "$total", 0],
+            },
+          },
+          not_paid_value: {
+            $sum: {
+              $cond: [{ $eq: ["$paid", false] }, "$total", 0],
+            },
+          },
+          count: {
+            $sum: {
+              $size: {
+                $filter: {
+                  input: "$volumes",
+                  as: "volumes",
+                  cond: { $eq: ["$$volumes.paid_now", true] },
+                },
+              },
+            },
+          },
         },
       },
     ]);
@@ -25,25 +45,23 @@ async function listTransactionsByMonth(req, res) {
   }
 }
 
-
 async function listTransactionsByYearAndMonth(req, res) {
-    try {
-      const transactions = await TransactionSchema.find({
-        year: req.params.year,
-        month: req.params.month,
-      })
-        .populate("receiver", "name")
-        .populate("client", "name");
-  
-      return res.send({ transactions });
-    } catch (err) {
-      console.log(err);
-      return res.status(400).send({ error: "Erro ao buscar transações" });
-    }
-  }
+  try {
+    const transactions = await TransactionSchema.find({
+      year: req.params.year,
+      month: req.params.month,
+    })
+      .populate("receiver", "name")
+      .populate("client", "name");
 
+    return res.send({ transactions });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({ error: "Erro ao buscar transações" });
+  }
+}
 
 module.exports = {
   listTransactionsByMonth,
-  listTransactionsByYearAndMonth
+  listTransactionsByYearAndMonth,
 };

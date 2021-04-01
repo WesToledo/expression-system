@@ -15,6 +15,13 @@ const FormPackage = ({
     });
   }
 
+  function handleOnChangeRadio(e) {
+    setForm({
+      ...form,
+      paid_now: e.target.value == "true",
+    });
+  }
+
   function handleOnChangePrice({ target }) {
     const value = target.value;
     var newPrice = value.replace(".", "").split(",").join("");
@@ -27,10 +34,6 @@ const FormPackage = ({
     });
     setForm({ ...form, price: newPrice });
   }
-
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -65,17 +68,39 @@ const FormPackage = ({
         }}
       >
         <Grid.Row>
-          <Grid.Col md={12} lg={6} sm={12}>
-            <Form.Group isRequired label="Nome">
+          <Grid.Col md={12} lg={4} sm={12}>
+            <Form.Group isRequired label="Descrição">
               <Form.Input
                 name="name"
-                placeholder="Digite o nome..."
+                placeholder="Digite a descrição..."
                 value={form.name}
                 onChange={handleOnChangeInput}
               />
             </Form.Group>
           </Grid.Col>
-          <Grid.Col md={12} lg={6} sm={12}>
+
+          <Grid.Col md={12} lg={4} sm={12}>
+            <Form.Group label="Tipo">
+              <Form.Radio
+                isInline
+                label="Pagamento Imediato"
+                name="paid_now"
+                value="true"
+                onChange={handleOnChangeRadio}
+                checked={form.paid_now}
+              />
+              <Form.Radio
+                isInline
+                label="Pagamento Posterior"
+                name="paid_now"
+                value="false"
+                onChange={handleOnChangeRadio}
+                checked={form.paid_now == false}
+              />
+            </Form.Group>
+          </Grid.Col>
+
+          <Grid.Col md={12} lg={4} sm={12}>
             <Form.Group isRequired label="Preço">
               <Form.Input
                 name="price"

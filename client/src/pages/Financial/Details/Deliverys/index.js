@@ -30,10 +30,6 @@ const DeliverysPage = (props) => {
     getTransactions();
   }, []);
 
-  useEffect(() => {
-    console.log(transactions);
-  }, [transactions]);
-
   return (
     <Wrapper>
       <Page.Content className="card-header-form">

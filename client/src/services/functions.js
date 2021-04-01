@@ -23,6 +23,11 @@ export function getFormatedDate(ISODate) {
   return dt + "/" + month + "/" + year;
 }
 
+export function getDay(ISODate) {
+  var date = new Date(ISODate);
+  return date.getDate();
+}
+
 export function getMonthName(month) {
   const months = [
     "Janeiro",

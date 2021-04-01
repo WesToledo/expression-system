@@ -22,6 +22,7 @@ function AddPackagePage(props) {
     year: undefined,
     paid: false,
     payday: undefined,
+    sent: false,
     obs: "",
   });
 
@@ -39,6 +40,7 @@ function AddPackagePage(props) {
             return { total: accumulator.total + current.total };
           }).total
         : 0,
+      sent: volumes.get()[0].paid_now ? false : true,
       paid,
       payday,
       obs,
@@ -57,9 +59,9 @@ function AddPackagePage(props) {
     }
   }
 
-  useEffect(() => {
-    console.log(form.get());
-  }, [form]);
+  // useEffect(() => {
+  //   console.log(form.get());
+  // }, [form]);
 
   return (
     <Wrapper>
