@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Page, Button } from "tabler-react";
 
-import { Grid } from "tabler-react";
+import { Grid, Form } from "tabler-react";
 
 import api from "~/services/api";
-import { getDate, getMonth } from "~/services/functions";
+
 import {
   successNotification,
   dangerNotification,
@@ -19,16 +19,16 @@ function Home(props) {
   });
 
   const [total, setTotal] = useState(0);
-
   const [packages, setPackages] = useState([]);
-
   const [isAllSented, setIsAllSented] = useState(false);
+
+  const [date, setDate] = useState(new Date());
 
   async function handleCreateCargo() {
     try {
       await api.post("/cargo/create", {
-        date: getDate(),
-        month: getMonth(),
+        date: date.toISOString(),
+        month: new Date(date).getMonth() + 1,
         open: true,
       });
 
@@ -96,8 +96,6 @@ function Home(props) {
   }, [cargo]);
 
   useEffect(() => {
-    console.log(packages);
-
     setTotal(
       packages.length
         ? packages.reduce(
@@ -110,6 +108,22 @@ function Home(props) {
     );
     setIsAllSented(packages.every((pack) => pack.sent));
   }, [packages]);
+
+  function getFormatedDate(ISODate) {
+    var date = new Date(ISODate);
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var dt = date.getDate();
+
+    if (dt < 10) {
+      dt = "0" + dt;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    return year + "-" + month + "-" + dt;
+  }
 
   return (
     <Wrapper>
@@ -128,8 +142,17 @@ function Home(props) {
               </Grid.Row>
             ) : (
               <Grid.Row>
-                <Grid.Col>
-                  <div className="d-flex" style={{ float: "right" }}>
+                <Grid.Col className="row justify-content-around align-items-center">
+                  <div>
+                    <Form.Group isRequired label="Data">
+                      <Form.Input
+                        type="date"
+                        value={getFormatedDate(date.toISOString())}
+                        onChange={(e) => setDate(new Date(e.target.value))}
+                      />
+                    </Form.Group>
+                  </div>
+                  <div>
                     <Button
                       type="submit"
                       color="success"

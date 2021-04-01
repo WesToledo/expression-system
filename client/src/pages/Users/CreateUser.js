@@ -15,7 +15,7 @@ const CreateUserPage = (props) => {
   const [form, setForm] = useState({
     name: undefined,
     login: undefined,
-    type: "DeliverMan",
+    type: "Admin",
   });
 
   const handleSubmit = async (e) => {

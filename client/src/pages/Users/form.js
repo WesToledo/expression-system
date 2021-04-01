@@ -85,7 +85,7 @@ const FormUsuario = ({
           </Grid.Col>
         </Grid.Row>
 
-        <Grid.Row>
+        {/* <Grid.Row>
           <Grid.Col md={12} lg={6} sm={12}>
             <Form.Group label="Tipo">
               <Form.Radio
@@ -106,7 +106,7 @@ const FormUsuario = ({
               />
             </Form.Group>
           </Grid.Col>
-        </Grid.Row>
+        </Grid.Row> */}
 
         {type === "cadastrar" ? (
           <Grid.Row>
