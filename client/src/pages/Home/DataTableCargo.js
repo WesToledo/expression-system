@@ -78,6 +78,7 @@ const DataTableCargo = ({ packages, getCargo, setPackages }) => {
   const options = {
     selectableRowsOnClick: true,
     rowsSelected: rowSelected,
+    rowsPerPage: 100,
     onRowSelectionChange: (rowsSelected, allRows) => {
       //return de indexes of the selected rows
       setRowSelected(allRows.map((row) => row.dataIndex));
