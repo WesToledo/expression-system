@@ -78,6 +78,17 @@ const FormPackage = ({
     });
   }
 
+  function handleOnChangeRadio(e) {
+    console.log("asedsd")
+    form.set((f) => {
+      return { ...f, paid: e.target.value == "true" };
+    });
+  }
+
+  useEffect(() => {
+    console.log(form.get());
+  }, [form]);
+
   return (
     <Form onSubmit={handleSubmit}>
       <Page.Card
@@ -155,6 +166,29 @@ const FormPackage = ({
                 name="obs"
                 placeholder="Escreva aqui as observações sobre a entrega"
                 rows={3}
+              />
+            </Form.Group>
+          </Grid.Col>
+        </Grid.Row>
+
+        <Grid.Row>
+          <Grid.Col md={12} lg={4} sm={12} xs={12}>
+            <Form.Group label="Pagamento">
+              <Form.Radio
+                isInline
+                label="Pago"
+                name="paid"
+                value="true"
+                onChange={handleOnChangeRadio}
+                checked={form.paid}
+              />
+              <Form.Radio
+                isInline
+                label="Pagamento Posterior"
+                name="paid"
+                value="false"
+                onChange={handleOnChangeRadio}
+                checked={form.paid}
               />
             </Form.Group>
           </Grid.Col>

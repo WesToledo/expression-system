@@ -24,6 +24,7 @@ function AddPackagePage(props) {
     payday: undefined,
     sent: false,
     obs: "",
+    paid: false,
   });
 
   const volumes = useStateLink([]);
@@ -42,7 +43,7 @@ function AddPackagePage(props) {
         : 0,
       sent: volumes.get()[0].paid_now ? false : true,
       paid,
-      payday,
+      payday: paid ? new Date().toISOString() : undefined,
       obs,
     };
 

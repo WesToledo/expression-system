@@ -68,7 +68,7 @@ const FormPackage = ({
         }}
       >
         <Grid.Row>
-          <Grid.Col md={12} lg={4} sm={12}>
+          <Grid.Col md={12} lg={4} sm={12} xs={12} >
             <Form.Group isRequired label="Descrição">
               <Form.Input
                 name="name"
@@ -79,7 +79,7 @@ const FormPackage = ({
             </Form.Group>
           </Grid.Col>
 
-          <Grid.Col md={12} lg={4} sm={12}>
+          <Grid.Col md={12} lg={4} sm={12} xs={12} >
             <Form.Group label="Tipo">
               <Form.Radio
                 isInline
@@ -100,7 +100,7 @@ const FormPackage = ({
             </Form.Group>
           </Grid.Col>
 
-          <Grid.Col md={12} lg={4} sm={12}>
+          <Grid.Col md={12} lg={4} sm={12} xs={12} >
             <Form.Group isRequired label="Preço">
               <Form.Input
                 name="price"
