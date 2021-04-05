@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Page, Grid, Card } from "tabler-react";
 
 import Wrapper from "~/components/Wrapper";
-import DataTableDetail from "./DataTableDetail";
+import DataTableDetail from "./Details/DataTableDetail";
 
 import api from "~/services/api";
 import { getFormatedDate } from "~/services/functions";

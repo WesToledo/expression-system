@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {Badge, Text } from "tabler-react";
+import { Badge, Text } from "tabler-react";
 
 import { getFormatedDate } from "~/services/functions";
 
-import DataTable from "~/components/DataTable";
+import DataTable from "./DataTable";
 
 const DataTableDetail = ({ packages }) => {
   const [data, setData] = useState([]);
@@ -69,7 +69,7 @@ const DataTableDetail = ({ packages }) => {
 
   const options = {
     selectableRowsOnClick: false,
-    selectableRows: "none",
+    selectableRows: "multiple",
   };
 
   useEffect(() => {
@@ -112,18 +112,7 @@ const DataTableDetail = ({ packages }) => {
   }, [packages]);
 
   return (
-    <DataTable
-      title={""}
-      tooltipEdit={"Editar volume"}
-      tooltipDelete={"Deletar volume"}
-      tooltipAdd={"Adicionar novo volume"}
-      currentRow={{ _id: "", name: "" }}
-      options={options}
-      data={data}
-      columns={columns}
-      showEdit={false}
-      showAdd={false}
-    />
+    <DataTable title={""} options={options} data={data} columns={columns} />
   );
 };
 

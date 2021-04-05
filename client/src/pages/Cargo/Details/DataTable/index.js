@@ -6,11 +6,11 @@ import CustomToolbarSelect from "./CustomToolbarSelect";
 import PayModal from "~/pages/Financial/Details/Deliverys/PayModal";
 /**/
 const DataTable = ({ options, data, columns, title }) => {
-  const modalRef = useRef(null);
+  // const modalRef = useRef(null);
 
-  const handleOpenModal = useCallback((selectedRowsData) => {
-    modalRef.current.handleClickOpen(selectedRowsData);
-  }, []);
+  // const handleOpenModal = useCallback((selectedRowsData) => {
+  //   modalRef.current.handleClickOpen(selectedRowsData);
+  // }, []);
 
   options = {
     filter: true,
@@ -53,7 +53,7 @@ const DataTable = ({ options, data, columns, title }) => {
       },
     },
     isRowSelectable: (dataIndex) => {
-      return !data[dataIndex].paid;
+      return true;
     },
     customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
       const selectedRowsData = selectedRows.data.map((row) => {
@@ -66,7 +66,7 @@ const DataTable = ({ options, data, columns, title }) => {
           displayData={displayData}
           setSelectedRows={setSelectedRows}
           selectedRowsData={selectedRowsData}
-          handleOpenModal={handleOpenModal}
+          // handleOpenModal={handleOpenModal}
         />
       );
     },
@@ -75,7 +75,7 @@ const DataTable = ({ options, data, columns, title }) => {
 
   return (
     <>
-      <PayModal ref={modalRef} />
+      {/* <PayModal ref={modalRef} /> */}
 
       <MUIDataTable
         title={title}

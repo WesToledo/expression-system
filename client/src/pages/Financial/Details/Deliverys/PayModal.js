@@ -203,7 +203,9 @@ const PayModal = (props, ref) => {
         <View style={styleDoc.header}>
           <Image style={styleDoc.headerImg} src="/assets/delivery-box.png" />
           <View style={styleDoc.headerTextContainer}>
-            <Text style={styleDoc.headerText}>Março - 2021</Text>
+            <Text style={styleDoc.headerText}>
+              {getMonthName(rowsData[0].month) + " - " + rowsData[0].year}
+            </Text>
           </View>
         </View>
         <View style={styleDoc.infoContainer}>

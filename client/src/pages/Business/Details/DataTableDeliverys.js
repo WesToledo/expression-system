@@ -27,6 +27,13 @@ const DataTableDeliverys = ({ transactions }) => {
       },
     },
     {
+      name: "client",
+      label: "Rementente",
+      options: {
+        display: true,
+      },
+    },
+    {
       name: "receiver",
       label: "Destinatário",
       options: {
@@ -85,6 +92,7 @@ const DataTableDeliverys = ({ transactions }) => {
     transactions.map((transaction) => {
       rows.push({
         ...transaction,
+        client: transaction.client.name,
         receiver: transaction.receiver.name,
         amount: transaction.volumes
           .map((volume) => volume.amount)
