@@ -20,7 +20,7 @@ function Home(props) {
 
   const [total, setTotal] = useState(0);
   const [packages, setPackages] = useState([]);
-  const [isAllSented, setIsAllSented] = useState(false);
+  // const [isAllSented, setIsAllSented] = useState(false);
 
   const [date, setDate] = useState(new Date());
 
@@ -111,7 +111,7 @@ function Home(props) {
           ).total
         : 0
     );
-    setIsAllSented(packages.every((pack) => pack.sent));
+    // setIsAllSented(packages.every((pack) => pack.sent));
   }, [packages]);
 
   function getFormatedDate(ISODate) {
@@ -210,7 +210,6 @@ function Home(props) {
                   <Button
                     type="submit"
                     color="danger"
-                    disabled={!isAllSented}
                     className="ml-auto margin-btn"
                     onClick={handleFinish}
                   >

@@ -115,7 +115,7 @@ const DataTableCargo = ({ cargos, getCargos, history }) => {
         ...cargo,
         date: getFormatedDate(cargo.date),
         total: "R$ " + cargo.total.toFixed(2).replace(".", ","),
-        amount: cargo.packages.length,
+        amount: cargo.packages.length, // < ------------------ HERE
         paid_value:
           "R$ " +
           cargo.packages

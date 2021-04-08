@@ -52,7 +52,7 @@ async function list(req, res) {
     // const cargos = await CargoSchema.find({ open: false }).populate({path: "packages", select: "volumes"});
     const cargos = await CargoSchema.find({ open: false }).populate({
       path: "packages",
-      select: "paid total volumes.paid_now",
+      select: "paid total volumes",
     });
 
     // .populate("packages", "paid total")

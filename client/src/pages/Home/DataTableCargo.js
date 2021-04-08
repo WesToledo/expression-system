@@ -59,15 +59,15 @@ const DataTableCargo = ({ packages, getCargo, setPackages }) => {
         display: true,
       },
     },
-    {
-      name: "actions",
-      label: "Carregado",
-      options: {
-        display: true,
-        filter: false,
-        viewColumns: false,
-      },
-    },
+    // {
+    //   name: "actions",
+    //   label: "Carregado",
+    //   options: {
+    //     display: true,
+    //     filter: false,
+    //     viewColumns: false,
+    //   },
+    // },
   ];
 
   const currentRow = useStateLink({
