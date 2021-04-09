@@ -124,7 +124,7 @@ Font.register({
 
 const MyDocument = ({ data }) => (
   <Document>
-    <Page size="A4">
+    <Page size="A4" wrap>
       <View style={styleDoc.header}>
         <Image style={styleDoc.headerImg} src="/assets/delivery-box.png" />
         <View style={styleDoc.headerTextContainer}>

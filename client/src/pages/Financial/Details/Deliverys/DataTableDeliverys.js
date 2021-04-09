@@ -4,7 +4,7 @@ import { Badge, Text } from "tabler-react";
 
 import DataTable from "./components/DataTable";
 
-import { getFormatedDate } from "~/services/functions";
+import { getFormatedDate, getDay } from "~/services/functions";
 
 const DataTableDeliverys = ({ transactions }) => {
   const [data, setData] = useState([]);
@@ -24,6 +24,13 @@ const DataTableDeliverys = ({ transactions }) => {
         filter: false,
         display: false,
         viewColumns: false,
+      },
+    },
+    {
+      name: "day",
+      label: "Dia",
+      options: {
+        display: true,
       },
     },
     {
@@ -85,6 +92,7 @@ const DataTableDeliverys = ({ transactions }) => {
     transactions.map((transaction) => {
       rows.push({
         ...transaction,
+        day: getDay(transaction.date),
         receiver: transaction.receiver.name,
         amount: transaction.volumes
           .map((volume) => volume.amount)
