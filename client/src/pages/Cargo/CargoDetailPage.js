@@ -26,6 +26,10 @@ const CargoDetailPage = (props) => {
 
   useEffect(() => {
     console.log(cargo);
+    if (cargo !== null) {
+      console.log(getFormatedDate(cargo.date));
+      console.log(new Date())
+    }
   }, [cargo]);
 
   return (

@@ -61,7 +61,6 @@ const styleDoc = StyleSheet.create({
   container: {
     fontFamily: "Open Sans",
     width: "100%",
-    height: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

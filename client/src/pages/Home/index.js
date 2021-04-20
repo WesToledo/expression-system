@@ -27,7 +27,7 @@ function Home(props) {
   async function handleCreateCargo() {
     try {
       await api.post("/cargo/create", {
-        date: date.toDateString(),
+        date: date.toISOString(),
         month: new Date(date).getMonth() + 1,
         open: true,
       });
@@ -152,9 +152,7 @@ function Home(props) {
                     <Form.Group isRequired label="Data">
                       <Form.Input
                         type="date"
-                        defaultValue={getFormatedDate(
-                          new Date().toDateString()
-                        )}
+                        defaultValue={getFormatedDate(new Date().toISOString())}
                         onChange={(e) => setDate(new Date(e.target.value))}
                       />
                     </Form.Group>
