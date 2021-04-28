@@ -28,7 +28,7 @@ const CargoDetailPage = (props) => {
     console.log(cargo);
     if (cargo !== null) {
       console.log(getFormatedDate(cargo.date));
-      console.log(new Date())
+      console.log(new Date());
     }
   }, [cargo]);
 
@@ -56,7 +56,7 @@ const CargoDetailPage = (props) => {
 
           <div className="divList">
             {cargo !== null ? (
-              <DataTableDetail packages={cargo.packages} />
+              <DataTableDetail packages={cargo.packages} getCargo={getCargo} />
             ) : (
               "Carregando informações..."
             )}

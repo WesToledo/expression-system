@@ -1,6 +1,8 @@
 const CargoSchema = require("../models/cargo");
 const TransactionSchema = require("../models/transactions");
 
+var ObjectId = require("mongodb").ObjectID;
+
 async function create(req, res) {
   try {
     if (await CargoSchema.findOne({ open: true })) return;
@@ -138,6 +140,22 @@ async function finishDelivery(req, res) {
   }
 }
 
+async function makePayment(req, res) {
+  try {
+    const { _id, paid } = req.body.transaction;
+    console.log(_id, paid);
+    await TransactionSchema.update(
+      { _id: ObjectId(_id) },
+      { $set: { paid: paid, payday: new Date() } }
+    );
+
+    return res.send();
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({ error: "Erro realizar pagamento" });
+  }
+}
+
 module.exports = {
   create,
   index,
@@ -145,5 +163,6 @@ module.exports = {
   list,
   getOne,
   getNotFinish,
+  makePayment,
   finishDelivery,
 };

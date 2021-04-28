@@ -71,6 +71,7 @@ cargoRouter.get("/all", cargo.list);
 cargoRouter.get("/one/:id", cargo.getOne);
 cargoRouter.put("/finish/:id", cargo.finishCargo);
 cargoRouter.get("/not-finish", cargo.getNotFinish);
+cargoRouter.put("/make-payment", cargo.makePayment);
 cargoRouter.put("/finish-delivery/:id", cargo.finishDelivery);
 
 const financialRouter = express.Router();
@@ -85,7 +86,10 @@ financialRouter.put("/make-payment", financial.makePayment);
 const businessRouter = express.Router();
 businessRouter.use(authMiddleware);
 businessRouter.get("/list-by-month", business.listTransactionsByMonth);
-businessRouter.get("/list-by-year-and-month/:year/:month", business.listTransactionsByYearAndMonth);
+businessRouter.get(
+  "/list-by-year-and-month/:year/:month",
+  business.listTransactionsByYearAndMonth
+);
 
 module.exports = {
   rootRouter,
@@ -96,5 +100,5 @@ module.exports = {
   transactionRouter,
   cargoRouter,
   financialRouter,
-  businessRouter
+  businessRouter,
 };
