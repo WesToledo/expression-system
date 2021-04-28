@@ -16,7 +16,7 @@ const DataTable = ({ options, data, columns, title }) => {
     filter: true,
     filterType: "dropdown",
     responsive: "standard",
-    rowsPerPage: 10,
+    rowsPerPage: 100,
     selectableRows: "single",
     textLabels: {
       body: {
