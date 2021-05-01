@@ -125,7 +125,7 @@ const DataTableCargo = ({ cargos, getCargos, history }) => {
             });
             return amount;
           })
-          .reduce((total, num) => total + num), // < ------------------ HERE
+          .reduce((total, num) => total + num, 0), // < ------------------ HERE
         paid_value:
           "R$ " +
           cargo.packages
