@@ -156,25 +156,29 @@ const MyDocument = ({ data }) => (
             </View>
           </View>
           {/* TableContent */}
-          {data.map((row) => (
-            <View style={styleDoc.tableRow}>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{row.client}</Text>
+          {data
+            .sort((a, b) =>
+              a.receiver > b.receiver ? 1 : b.receiver > a.receiver ? -1 : 0
+            )
+            .map((row, index) => (
+              <View style={styleDoc.tableRow} key={index}>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{row.client}</Text>
+                </View>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{row.receiver}</Text>
+                </View>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{row.amount}</Text>
+                </View>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{row.volumes}</Text>
+                </View>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{row.obs}</Text>
+                </View>
               </View>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{row.receiver}</Text>
-              </View>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{row.amount}</Text>
-              </View>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{row.volumes}</Text>
-              </View>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{row.obs}</Text>
-              </View>
-            </View>
-          ))}
+            ))}
         </View>
       </View>
     </Page>

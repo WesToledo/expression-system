@@ -48,7 +48,10 @@ async function listTransactionsByClientAndMonth(req, res) {
       month: req.params.month,
     })
       .populate("receiver", "name")
-      .populate("client", "name");
+      .populate("client", "name")
+      .sort([["date", "ascending"]]);
+
+    console.log(transactions);
 
     return res.send({ transactions });
   } catch (err) {

@@ -25,7 +25,7 @@ export function getFormatedDate(ISODate) {
 
 export function getDay(ISODate) {
   var date = new Date(ISODate);
-  return date.getDate();
+  return date.getUTCDate();
 }
 
 export function getMonthName(month) {

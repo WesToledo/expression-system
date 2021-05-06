@@ -128,7 +128,11 @@ const MyDocument = ({ rowsData }) => (
     <Page size="A4">
       <View style={styleDoc.header}>
         <Image style={styleDoc.headerImg} src="/assets/delivery-box.png" />
+
         <View style={styleDoc.headerTextContainer}>
+          <Text style={styleDoc.headerTextLeft}>
+            Expression Transportadora -{" "}
+          </Text>
           <Text style={styleDoc.headerText}>
             {getMonthName(rowsData[0].month) + " - " + rowsData[0].year}
           </Text>
@@ -136,7 +140,7 @@ const MyDocument = ({ rowsData }) => (
       </View>
       <View style={styleDoc.infoContainer}>
         <Text style={styleDoc.infoText}>
-          Cliente: {rowsData[0].client.name}
+          Cliente - {rowsData[0].client.name}
         </Text>
       </View>
       <View style={styleDoc.container}>
@@ -160,25 +164,33 @@ const MyDocument = ({ rowsData }) => (
             </View>
           </View>
           {/* TableContent */}
-          {rowsData.map((row) => (
-            <View style={styleDoc.tableRow}>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{getDay(row.date)}</Text>
+          {rowsData
+            .sort((a, b) =>
+              getDay(a.date) > getDay(b.date)
+                ? 1
+                : getDay(b.date) > getDay(a.date)
+                ? -1
+                : 0
+            )
+            .map((row) => (
+              <View style={styleDoc.tableRow}>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{getDay(row.date)}</Text>
+                </View>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{row.receiver}</Text>
+                </View>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{row.amount}</Text>
+                </View>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{row.volumes}</Text>
+                </View>
+                <View style={styleDoc.tableCol}>
+                  <Text style={styleDoc.tableCell}>{row.total}</Text>
+                </View>
               </View>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{row.receiver}</Text>
-              </View>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{row.amount}</Text>
-              </View>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{row.volumes}</Text>
-              </View>
-              <View style={styleDoc.tableCol}>
-                <Text style={styleDoc.tableCell}>{row.total}</Text>
-              </View>
-            </View>
-          ))}
+            ))}
         </View>
         <View style={styleDoc.footerContainer}>
           <Text style={styleDoc.footerText}>
