@@ -12,7 +12,7 @@ import {
 
 import DataTable from "~/components/DataTable";
 
-const DataTableCargo = ({ packages, getCargo, setPackages }) => {
+const DataTableCargo = ({ packages, getCargo, setPackages, cargo }) => {
   const [data, setData] = useState([]);
   const [rowSelected, setRowSelected] = useState();
   const columns = [
@@ -190,7 +190,7 @@ const DataTableCargo = ({ packages, getCargo, setPackages }) => {
         data={data}
         currentRow={currentRow}
         columns={columns}
-        hrefAdd={"/carregamento/adicionar"}
+        hrefAdd={"/carregamento/adicionar/" + cargo.date}
         setModalDelete={setModalDelete}
         showEdit={false}
       />

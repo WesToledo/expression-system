@@ -11,7 +11,7 @@ import {
 } from "~/services/notification";
 
 import Wrapper from "~/components/Wrapper";
-import DataTablePackages from "~/pages/Home/DataTableCargo";
+import DataTableCargo from "~/pages/Home/DataTableCargo";
 
 function Home(props) {
   const [cargo, setCargo] = useState({
@@ -61,7 +61,7 @@ function Home(props) {
   async function getCargo() {
     try {
       const response = await api.get("/cargo");
-      console.log(response);
+      //console.log(response);
       if (response.data.cargo) setCargo(response.data.cargo);
     } catch (err) {
       console.log(err);
@@ -138,10 +138,11 @@ function Home(props) {
             {cargo.open ? (
               <Grid.Row>
                 <Grid.Col>
-                  <DataTablePackages
+                  <DataTableCargo
                     packages={packages}
                     getCargo={getCargo}
                     setPackages={setPackages}
+                    cargo={cargo}
                   />
                 </Grid.Col>
               </Grid.Row>

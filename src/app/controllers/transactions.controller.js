@@ -15,7 +15,6 @@ async function create(req, res) {
     const transaction = await TransactionSchema.create({
       ...req.body,
       ...getMonthAndYear(),
-      date: getDate(),
     });
 
     const cargo = await CargoSchema.findOne({ open: true }).populate(

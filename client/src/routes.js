@@ -117,7 +117,7 @@ function App() {
 
         <PrivateRoute
           exact
-          path="/carregamento/adicionar"
+          path="/carregamento/adicionar/:date"
           component={AddPackagePage}
         />
         <PrivateRoute
