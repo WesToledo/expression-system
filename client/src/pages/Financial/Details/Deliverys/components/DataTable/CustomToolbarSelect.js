@@ -38,12 +38,10 @@ Font.register({
   family: "Open Sans",
   fonts: [
     {
-      src:
-        "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-regular.ttf",
+      src: "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-regular.ttf",
     },
     {
-      src:
-        "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-600.ttf",
+      src: "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-600.ttf",
       fontWeight: 600,
     },
   ],
@@ -77,7 +75,6 @@ const styleDoc = StyleSheet.create({
   container: {
     fontFamily: "Open Sans",
     width: "100%",
-    height: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
