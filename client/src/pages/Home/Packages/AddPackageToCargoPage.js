@@ -37,6 +37,8 @@ function AddPackagePage(props) {
       receiver: receiver.value,
       volumes: volumes.value,
       date: props.match.params.date,
+      month: new Date(props.match.params.date).getMonth() + 1,
+      year: new Date(props.match.params.date).getFullYear(),
       total: volumes.get().length
         ? volumes.get().reduce((accumulator, current) => {
             return { total: accumulator.total + current.total };

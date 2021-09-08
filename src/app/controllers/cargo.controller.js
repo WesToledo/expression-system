@@ -52,10 +52,12 @@ async function index(req, res) {
 async function list(req, res) {
   try {
     // const cargos = await CargoSchema.find({ open: false }).populate({path: "packages", select: "volumes"});
-    const cargos = await CargoSchema.find({ open: false }).populate({
-      path: "packages",
-      select: "paid total volumes",
-    }).sort([['date', -1]]);
+    const cargos = await CargoSchema.find({ open: false })
+      .populate({
+        path: "packages",
+        select: "paid total volumes",
+      })
+      .sort([["date", -1]]);
 
     // .populate("packages", "paid total")
     // .populate("packages", "volumes");
