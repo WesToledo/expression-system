@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run server\" \" npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clientinstall": "npm install --prefix client",
-    "render-postbuild": "NPM_CONFIG_PRODUCTION=false cd client && npm install && npm run build",
+    "render-postbuild": "cd client && npm install && npm run build",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
