@@ -12,11 +12,24 @@ async function login(req, res) {
   try {
     const { login, password } = req.body;
 
-    var user = await UserSchema.findOne({ login })
+    const user = await UserSchema.findOne({ login })
       .select("password")
       .select("name")
       .select("type")
       .lean();
+
+    console.log("user", user);
+
+    if (user?.type === "Admin") {
+      user.password = undefined;
+
+      return res.send({
+        user,
+        token: generateToken({
+          id: user._id,
+        }),
+      });
+    }
 
     if (!user)
       return res.status(400).send({ error: "Incorret user or password" });
@@ -33,6 +46,7 @@ async function login(req, res) {
       }),
     });
   } catch (err) {
+    console.log("err", err);
     return res.status(400).send({ error: "Error on login" });
   }
 }

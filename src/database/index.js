@@ -1,19 +1,22 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGO_URL,{
-    useUnifiedTopology:true,
-    useNewUrlParser:true,
-    useFindAndModify:false
-}, function(err){
-    if(err){
-        console.log(err)
-    }else{
-        console.log('MongoDB CONECTADO com sucesso!')
+mongoose.connect(
+  process.env.MONGO_URL,
+  {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useFindAndModify: false,
+  },
+  function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("MongoDB CONECTADO com sucesso! at ", process.env.MONGO_URL);
     }
-    
-});
+  }
+);
 mongoose.Promise = global.Promise;
 
 module.exports = mongoose;
