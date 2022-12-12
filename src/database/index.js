@@ -8,6 +8,7 @@ mongoose.connect(
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false,
+    dbName: "expression-transportadora",
   },
   function (err) {
     if (err) {
@@ -17,6 +18,5 @@ mongoose.connect(
     }
   }
 );
-mongoose.Promise = global.Promise;
 
 module.exports = mongoose;
