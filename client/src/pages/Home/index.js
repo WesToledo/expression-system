@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Page, Button } from "tabler-react";
 
-import { Grid } from "tabler-react";
+import { Grid, Form } from "tabler-react";
 
 import api from "~/services/api";
-import { getDate, getMonth } from "~/services/functions";
+
 import {
   successNotification,
   dangerNotification,
 } from "~/services/notification";
 
 import Wrapper from "~/components/Wrapper";
-import DataTablePackages from "~/pages/Home/DataTableCargo";
+import DataTableCargo from "~/pages/Home/DataTableCargo";
 
 function Home(props) {
   const [cargo, setCargo] = useState({
@@ -19,25 +19,25 @@ function Home(props) {
   });
 
   const [total, setTotal] = useState(0);
-
   const [packages, setPackages] = useState([]);
+  // const [isAllSented, setIsAllSented] = useState(false);
 
-  const [isAllSented, setIsAllSented] = useState(false);
+  const [date, setDate] = useState(new Date());
 
   async function handleCreateCargo() {
     try {
       await api.post("/cargo/create", {
-        date: getDate(),
-        month: getMonth(),
+        date: date.toISOString(),
+        month: new Date(date).getMonth() + 1,
         open: true,
       });
 
-      successNotification("Sucesso", "Sucesso criar carregamento");
+      successNotification("Sucesso", "Sucesso abrir carregamento");
       getCargo();
     } catch (err) {
       if (err.response.data.error)
         dangerNotification("Erro", err.response.data.error);
-      else dangerNotification("Erro", "Erro ao criar carregamento");
+      else dangerNotification("Erro", "Erro ao abrir carregamento");
     }
   }
 
@@ -61,6 +61,7 @@ function Home(props) {
   async function getCargo() {
     try {
       const response = await api.get("/cargo");
+      //console.log(response);
       if (response.data.cargo) setCargo(response.data.cargo);
     } catch (err) {
       console.log(err);
@@ -82,7 +83,11 @@ function Home(props) {
             id: pack._id,
             client: pack.client.name,
             receiver: pack.receiver.name,
-            amount: pack.volumes.length,
+            amount: pack.volumes
+              .map((p) => {
+                return p.amount + " " + p.name;
+              })
+              .join(", "),
             observations: !pack.volumes[0].paid_now
               ? pack.volumes[0].name + " " + pack.obs
               : pack.obs,
@@ -96,8 +101,6 @@ function Home(props) {
   }, [cargo]);
 
   useEffect(() => {
-    console.log(packages);
-
     setTotal(
       packages.length
         ? packages.reduce(
@@ -108,8 +111,24 @@ function Home(props) {
           ).total
         : 0
     );
-    setIsAllSented(packages.every((pack) => pack.sent));
+    // setIsAllSented(packages.every((pack) => pack.sent));
   }, [packages]);
+
+  function getFormatedDate(ISODate) {
+    var date = new Date(ISODate);
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var dt = date.getDate();
+
+    if (dt < 10) {
+      dt = "0" + dt;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    return year + "-" + month + "-" + dt;
+  }
 
   return (
     <Wrapper>
@@ -119,17 +138,27 @@ function Home(props) {
             {cargo.open ? (
               <Grid.Row>
                 <Grid.Col>
-                  <DataTablePackages
+                  <DataTableCargo
                     packages={packages}
                     getCargo={getCargo}
                     setPackages={setPackages}
+                    cargo={cargo}
                   />
                 </Grid.Col>
               </Grid.Row>
             ) : (
               <Grid.Row>
-                <Grid.Col>
-                  <div className="d-flex" style={{ float: "right" }}>
+                <Grid.Col className="row justify-content-around align-items-center">
+                  <div>
+                    <Form.Group isRequired label="Data">
+                      <Form.Input
+                        type="date"
+                        defaultValue={getFormatedDate(new Date().toISOString())}
+                        onChange={(e) => setDate(new Date(e.target.value))}
+                      />
+                    </Form.Group>
+                  </div>
+                  <div>
                     <Button
                       type="submit"
                       color="success"
@@ -180,7 +209,6 @@ function Home(props) {
                   <Button
                     type="submit"
                     color="danger"
-                    disabled={!isAllSented}
                     className="ml-auto margin-btn"
                     onClick={handleFinish}
                   >

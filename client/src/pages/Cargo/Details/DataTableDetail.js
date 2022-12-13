@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {Badge, Text } from "tabler-react";
+import { Badge, Text, Grid, Form } from "tabler-react";
 
 import { getFormatedDate } from "~/services/functions";
+import api from "~/services/api";
+import {
+  successNotification,
+  dangerNotification,
+} from "~/services/notification";
 
-import DataTable from "~/components/DataTable";
+import DataTable from "./DataTable";
 
-const DataTableDetail = ({ packages }) => {
+const DataTableDetail = ({ packages, getCargo }) => {
   const [data, setData] = useState([]);
   const columns = [
     {
@@ -65,12 +70,34 @@ const DataTableDetail = ({ packages }) => {
         display: true,
       },
     },
+    {
+      name: "paid",
+      label: "Pago?",
+      options: {
+        display: true,
+        filter: false,
+        viewColumns: false,
+      },
+    },
   ];
 
   const options = {
     selectableRowsOnClick: false,
-    selectableRows: "none",
+    selectableRows: "multiple",
   };
+
+  async function handlePaidCheck(e) {
+    try {
+      console.log(e.target.checked);
+      await api.put("/cargo/make-payment", {
+        transaction: { _id: e.target.value, paid: e.target.checked },
+      });
+      successNotification("Sucesso", "Sucesso ao efetuar pagamento");
+      getCargo();
+    } catch (err) {
+      dangerNotification("Erro", "Erro ao efetuar pagamento");
+    }
+  }
 
   useEffect(() => {
     refreshDataTable();
@@ -102,6 +129,16 @@ const DataTableDetail = ({ packages }) => {
             Em Haver
           </Badge>
         ),
+        paid: (
+          <Grid.Row className="justify-content-center">
+            <Form.Checkbox
+              label=" "
+              value={pack._id}
+              checked={pack.paid}
+              onChange={handlePaidCheck}
+            />
+          </Grid.Row>
+        ),
       });
     });
     setData(rows);
@@ -112,18 +149,7 @@ const DataTableDetail = ({ packages }) => {
   }, [packages]);
 
   return (
-    <DataTable
-      title={""}
-      tooltipEdit={"Editar volume"}
-      tooltipDelete={"Deletar volume"}
-      tooltipAdd={"Adicionar novo volume"}
-      currentRow={{ _id: "", name: "" }}
-      options={options}
-      data={data}
-      columns={columns}
-      showEdit={false}
-      showAdd={false}
-    />
+    <DataTable title={""} options={options} data={data} columns={columns} />
   );
 };
 

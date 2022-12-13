@@ -1,16 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import PrintIcon from "@material-ui/icons/Print";
 
 import { saveAs } from "file-saver";
-
-import { getMonthName, getDay } from "~/services/functions";
-
-import { withStyles } from "@material-ui/core/styles";
 
 import {
   Page,
@@ -24,6 +14,14 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import PrintIcon from "@material-ui/icons/Print";
+
+import { withStyles } from "@material-ui/core/styles";
+
+import { getMonthName, getFormatedDate } from "~/services/functions";
+
 const defaultToolbarSelectStyles = {
   iconButton: {},
   iconContainer: {
@@ -34,18 +32,6 @@ const defaultToolbarSelectStyles = {
   },
 };
 
-Font.register({
-  family: "Open Sans",
-  fonts: [
-    {
-      src: "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-regular.ttf",
-    },
-    {
-      src: "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-600.ttf",
-      fontWeight: 600,
-    },
-  ],
-});
 // Create styles
 const styleDoc = StyleSheet.create({
   header: {
@@ -120,32 +106,41 @@ const styleDoc = StyleSheet.create({
   footerText: { padding: 5, fontSize: 12, fontWeight: 600 },
 });
 
-const MyDocument = ({ rowsData }) => (
+Font.register({
+  family: "Open Sans",
+  fonts: [
+    {
+      src:
+        "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-regular.ttf",
+    },
+    {
+      src:
+        "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-600.ttf",
+      fontWeight: 600,
+    },
+  ],
+});
+
+const MyDocument = ({ data }) => (
   <Document>
-    <Page size="A4">
+    <Page size="A4" wrap>
       <View style={styleDoc.header}>
         <Image style={styleDoc.headerImg} src="/assets/delivery-box.png" />
-
         <View style={styleDoc.headerTextContainer}>
-          <Text style={styleDoc.headerTextLeft}>
-            Expression Transportadora -{" "}
-          </Text>
           <Text style={styleDoc.headerText}>
-            {getMonthName(rowsData[0].month) + " - " + rowsData[0].year}
+            Data: {getFormatedDate(data[0].date)}
           </Text>
         </View>
       </View>
       <View style={styleDoc.infoContainer}>
-        <Text style={styleDoc.infoText}>
-          Cliente - {rowsData[0].client.name}
-        </Text>
+        <Text style={styleDoc.infoText}>Entregas</Text>
       </View>
       <View style={styleDoc.container}>
         <View style={styleDoc.table}>
           {/* TableHeader */}
           <View style={styleDoc.tableRow}>
             <View style={styleDoc.tableColHeader}>
-              <Text style={styleDoc.tableCellHeader}>Dia</Text>
+              <Text style={styleDoc.tableCellHeader}>Cliente</Text>
             </View>
             <View style={styleDoc.tableColHeader}>
               <Text style={styleDoc.tableCellHeader}>Destinatário</Text>
@@ -157,22 +152,18 @@ const MyDocument = ({ rowsData }) => (
               <Text style={styleDoc.tableCellHeader}>Volumes</Text>
             </View>
             <View style={styleDoc.tableColHeader}>
-              <Text style={styleDoc.tableCellHeader}>Total</Text>
+              <Text style={styleDoc.tableCellHeader}>OBS</Text>
             </View>
           </View>
           {/* TableContent */}
-          {rowsData
+          {data
             .sort((a, b) =>
-              getDay(a.date) > getDay(b.date)
-                ? 1
-                : getDay(b.date) > getDay(a.date)
-                ? -1
-                : 0
+              a.receiver > b.receiver ? 1 : b.receiver > a.receiver ? -1 : 0
             )
-            .map((row) => (
-              <View style={styleDoc.tableRow}>
+            .map((row, index) => (
+              <View style={styleDoc.tableRow} key={index}>
                 <View style={styleDoc.tableCol}>
-                  <Text style={styleDoc.tableCell}>{getDay(row.date)}</Text>
+                  <Text style={styleDoc.tableCell}>{row.client}</Text>
                 </View>
                 <View style={styleDoc.tableCol}>
                   <Text style={styleDoc.tableCell}>{row.receiver}</Text>
@@ -184,44 +175,37 @@ const MyDocument = ({ rowsData }) => (
                   <Text style={styleDoc.tableCell}>{row.volumes}</Text>
                 </View>
                 <View style={styleDoc.tableCol}>
-                  <Text style={styleDoc.tableCell}>{row.total}</Text>
+                  <Text style={styleDoc.tableCell}>{row.obs}</Text>
                 </View>
               </View>
             ))}
-        </View>
-        <View style={styleDoc.footerContainer}>
-          <Text style={styleDoc.footerText}>
-            TOTAL: R${" "}
-            {rowsData
-              .map((row) => Number(row.total.substring(3).replace(",", ".")))
-              .reduce((total, num) => total + num)
-              .toFixed(2)
-              .replace(".", ",")}
-          </Text>
         </View>
       </View>
     </Page>
   </Document>
 );
 
-function CustomToolbarSelect({
-  classes,
-  selectedRowsData,
-  setSelectedRows,
-  handleOpenModal,
-}) {
+function CustomToolbarSelect({ classes, selectedRowsData, setSelectedRows }) {
   const [openNewTab, setOpenNewTab] = useState({ open: false });
+
+  function formatDate(ISODate) {
+    var date = new Date(ISODate);
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var dt = date.getDate();
+
+    if (dt < 10) {
+      dt = "0" + dt;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    return dt + "-" + month + "-" + year;
+  }
+
   return (
     <div className={classes.iconContainer}>
-      <Tooltip title={"Pagar"}>
-        <IconButton
-          className={(classes.iconButton, "text-success")}
-          onClick={() => handleOpenModal(selectedRowsData)}
-        >
-          <AttachMoneyIcon className={classes.icon} />
-        </IconButton>
-      </Tooltip>
-
       <Tooltip title={"Imprimir"}>
         <IconButton
           className={(classes.iconButton, "text-success")}
@@ -233,10 +217,11 @@ function CustomToolbarSelect({
           <PrintIcon className={classes.icon} />
         </IconButton>
       </Tooltip>
+
       <div>
         <PDFDownloadLink
-          document={<MyDocument rowsData={selectedRowsData} />}
-          fileName={"Comprovante de pagamento"}
+          document={<MyDocument data={selectedRowsData} />}
+          fileName={"Lista de Entregas"}
         >
           {({ blob, url, loading, error }) => {
             if (!loading)
@@ -245,10 +230,7 @@ function CustomToolbarSelect({
                 window.open(url, "_blank");
                 saveAs(
                   url,
-                  "Lista de volumes - " +
-                    selectedRowsData[0].client.name +
-                    " - " +
-                    getMonthName(selectedRowsData[0].month)
+                  "Lista de entregas - " + formatDate(selectedRowsData[0].date)
                 );
               }
             return loading ? "" : "";

@@ -25,15 +25,30 @@ async function listTransactionsByMonth(req, res) {
           },
           count: {
             $sum: {
-              $size: {
-                $filter: {
-                  input: "$volumes",
-                  as: "volumes",
-                  cond: { $eq: ["$$volumes.paid_now", true] },
+              $reduce: {
+                input: {
+                  $filter: {
+                    input: "$volumes",
+                    as: "volumes",
+                    cond: { $eq: ["$$volumes.paid_now", true] },
+                  },
                 },
+                initialValue: 0,
+                in: { $sum: ["$$value", "$$this.amount"] },
               },
             },
           },
+          // count: {
+          //   $sum: {
+          //     $size: {
+          //       $filter: {
+          //         input: "$volumes",
+          //         as: "volumes",
+          //         cond: { $eq: ["$$volumes.paid_now", true] },
+          //       },
+          //     },
+          //   },
+          // },
         },
       },
     ]);

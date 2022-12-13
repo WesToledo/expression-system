@@ -1,13 +1,27 @@
 const CargoSchema = require("../models/cargo");
 const TransactionSchema = require("../models/transactions");
 
+var ObjectId = require("mongodb").ObjectID;
+
 async function create(req, res) {
   try {
     if (await CargoSchema.findOne({ open: true })) return;
 
-    const cargo = await CargoSchema.create(req.body);
+    let cargo = await CargoSchema.findOne({ date: req.body.date });
 
-    return res.send({ cargo });
+    if (cargo) {
+      await CargoSchema.findByIdAndUpdate(
+        cargo._id,
+        { open: true },
+        {
+          new: true,
+        }
+      );
+      return res.send({ cargo });
+    } else {
+      cargo = await CargoSchema.create(req.body);
+      return res.send({ cargo });
+    }
   } catch (err) {
     return res.status(400).send({ error: "Erro ao criar carregamento" });
   }
@@ -38,10 +52,12 @@ async function index(req, res) {
 async function list(req, res) {
   try {
     // const cargos = await CargoSchema.find({ open: false }).populate({path: "packages", select: "volumes"});
-    const cargos = await CargoSchema.find({ open: false }).populate({
-      path: "packages",
-      select: "paid total volumes.paid_now",
-    });
+    const cargos = await CargoSchema.find({ open: false })
+      .populate({
+        path: "packages",
+        select: "paid total volumes",
+      })
+      .sort([["date", -1]]);
 
     // .populate("packages", "paid total")
     // .populate("packages", "volumes");
@@ -126,6 +142,22 @@ async function finishDelivery(req, res) {
   }
 }
 
+async function makePayment(req, res) {
+  try {
+    const { _id, paid } = req.body.transaction;
+    console.log(_id, paid);
+    await TransactionSchema.update(
+      { _id: ObjectId(_id) },
+      { $set: { paid: paid, payday: new Date() } }
+    );
+
+    return res.send();
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({ error: "Erro realizar pagamento" });
+  }
+}
+
 module.exports = {
   create,
   index,
@@ -133,5 +165,6 @@ module.exports = {
   list,
   getOne,
   getNotFinish,
+  makePayment,
   finishDelivery,
 };

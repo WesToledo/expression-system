@@ -24,6 +24,7 @@ function AddPackagePage(props) {
     payday: undefined,
     sent: false,
     obs: "",
+    paid: false,
   });
 
   const volumes = useStateLink([]);
@@ -35,6 +36,9 @@ function AddPackagePage(props) {
       client: client.value,
       receiver: receiver.value,
       volumes: volumes.value,
+      date: props.match.params.date,
+      month: new Date(props.match.params.date).getMonth() + 1,
+      year: new Date(props.match.params.date).getFullYear(),
       total: volumes.get().length
         ? volumes.get().reduce((accumulator, current) => {
             return { total: accumulator.total + current.total };
@@ -42,7 +46,7 @@ function AddPackagePage(props) {
         : 0,
       sent: volumes.get()[0].paid_now ? false : true,
       paid,
-      payday,
+      payday: paid ? new Date().toISOString() : undefined,
       obs,
     };
 

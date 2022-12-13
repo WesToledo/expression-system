@@ -41,7 +41,7 @@ function Row({ row }) {
       </TableCell>
       <TableCell align="center">{row.volumes}</TableCell>
       <TableCell align="center">
-        {getFormatedDate(new Date(row.date))}
+        {getFormatedDate(new Date(row.date).toISOString())}
       </TableCell>
       <TableCell align="center">{row.total}</TableCell>
     </TableRow>

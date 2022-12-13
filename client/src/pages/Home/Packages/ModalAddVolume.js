@@ -70,8 +70,8 @@ function ModalAddVolume(
         ) {
           volumes.merge((previous) => ({
             [index]: {
-                id,
-                name,
+              id,
+              name,
               value: price,
               amount: previous[index].amount + amount,
               total: previous[index].total + price * amount,
@@ -112,20 +112,8 @@ function ModalAddVolume(
             />
           </Form.Group>
         </Grid.Col>
-        <Grid.Col md={12} lg={4} sm={12}>
-          <Form.Group isRequired label="Quantidade">
-            <input
-              className="form-control"
-              name="amount"
-              type="number"
-              min="1"
-              defaultValue="1"
-              ref={amountRef}
-            />
-          </Form.Group>
-        </Grid.Col>
 
-        <Grid.Col md={12} lg={8} sm={12}>
+        <Grid.Col md={12} lg={4} sm={12}>
           <Form.Group isRequired label="Preço">
             <input
               autoFocus
@@ -138,6 +126,18 @@ function ModalAddVolume(
               onChange={(e) => {
                 setSelectedPrice(e.target.value);
               }}
+            />
+          </Form.Group>
+        </Grid.Col>
+        <Grid.Col md={12} lg={4} sm={12}>
+          <Form.Group isRequired label="Quantidade">
+            <input
+              className="form-control"
+              name="amount"
+              type="number"
+              min="1"
+              defaultValue="1"
+              ref={amountRef}
             />
           </Form.Group>
         </Grid.Col>

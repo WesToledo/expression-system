@@ -12,7 +12,7 @@ import {
 
 import DataTable from "~/components/DataTable";
 
-const DataTableCargo = ({ packages, getCargo, setPackages }) => {
+const DataTableCargo = ({ packages, getCargo, setPackages, cargo }) => {
   const [data, setData] = useState([]);
   const [rowSelected, setRowSelected] = useState();
   const columns = [
@@ -59,15 +59,15 @@ const DataTableCargo = ({ packages, getCargo, setPackages }) => {
         display: true,
       },
     },
-    {
-      name: "actions",
-      label: "Carregado",
-      options: {
-        display: true,
-        filter: false,
-        viewColumns: false,
-      },
-    },
+    // {
+    //   name: "actions",
+    //   label: "Carregado",
+    //   options: {
+    //     display: true,
+    //     filter: false,
+    //     viewColumns: false,
+    //   },
+    // },
   ];
 
   const currentRow = useStateLink({
@@ -78,6 +78,7 @@ const DataTableCargo = ({ packages, getCargo, setPackages }) => {
   const options = {
     selectableRowsOnClick: true,
     rowsSelected: rowSelected,
+    rowsPerPage: 100,
     onRowSelectionChange: (rowsSelected, allRows) => {
       //return de indexes of the selected rows
       setRowSelected(allRows.map((row) => row.dataIndex));
@@ -189,7 +190,7 @@ const DataTableCargo = ({ packages, getCargo, setPackages }) => {
         data={data}
         currentRow={currentRow}
         columns={columns}
-        hrefAdd={"/carregamento/adicionar"}
+        hrefAdd={"/carregamento/adicionar/" + cargo.date}
         setModalDelete={setModalDelete}
         showEdit={false}
       />

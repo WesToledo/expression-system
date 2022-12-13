@@ -115,7 +115,17 @@ const DataTableCargo = ({ cargos, getCargos, history }) => {
         ...cargo,
         date: getFormatedDate(cargo.date),
         total: "R$ " + cargo.total.toFixed(2).replace(".", ","),
-        amount: cargo.packages.length,
+        amount: cargo.packages
+          .map((pack) => {
+            var amount = 0;
+            pack.volumes.forEach((p) => {
+              if (p.paid_now) {
+                amount += p.amount;
+              }
+            });
+            return amount;
+          })
+          .reduce((total, num) => total + num, 0), // < ------------------ HERE
         paid_value:
           "R$ " +
           cargo.packages

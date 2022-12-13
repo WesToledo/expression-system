@@ -117,7 +117,7 @@ function App() {
 
         <PrivateRoute
           exact
-          path="/carregamento/adicionar"
+          path="/carregamento/adicionar/:date"
           component={AddPackagePage}
         />
         <PrivateRoute
@@ -129,7 +129,7 @@ function App() {
         <PrivateRoute exact path="/entregas" component={CargoPage} />
         <PrivateRoute exact path="/entregas/:id" component={CargoDetailPage} />
 
-        <PrivateRoute exact path="/entregador" component={DeliveryManPage} />
+        {/* <PrivateRoute exact path="/entregador" component={DeliveryManPage} /> */}
 
         <PrivateRoute exact path="/financeiro" component={FinancialPage} />
         <PrivateRoute

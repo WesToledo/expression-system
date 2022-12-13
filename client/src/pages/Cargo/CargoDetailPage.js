@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Page, Grid, Card } from "tabler-react";
 
 import Wrapper from "~/components/Wrapper";
-import DataTableDetail from "./DataTableDetail";
+import DataTableDetail from "./Details/DataTableDetail";
 
 import api from "~/services/api";
 import { getFormatedDate } from "~/services/functions";
@@ -26,6 +26,10 @@ const CargoDetailPage = (props) => {
 
   useEffect(() => {
     console.log(cargo);
+    if (cargo !== null) {
+      console.log(getFormatedDate(cargo.date));
+      console.log(new Date());
+    }
   }, [cargo]);
 
   return (
@@ -52,7 +56,7 @@ const CargoDetailPage = (props) => {
 
           <div className="divList">
             {cargo !== null ? (
-              <DataTableDetail packages={cargo.packages} />
+              <DataTableDetail packages={cargo.packages} getCargo={getCargo} />
             ) : (
               "Carregando informações..."
             )}
