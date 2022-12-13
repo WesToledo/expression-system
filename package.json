@@ -13,9 +13,6 @@
     "render-postbuild": "cd client && npm install && npm run build",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
-  "engines": {
-    "node": "16.x"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WesToledo/expression-system.git"
